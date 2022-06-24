@@ -53,7 +53,7 @@ import {
       case UPDATE_PROFILEPIC:
         return {
           ...state,
-          userInfo: [...userInfo, ]
+          userInfo: [ ...state.userInfo]
         };
       case TOKEN_REMOVE:
         window.localStorage.removeItem("token");

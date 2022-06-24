@@ -2,14 +2,23 @@ import React, { useState } from "react";
 import "./Footer.css";
 import { BsTwitter } from "react-icons/bs";
 import { FaFacebookF, FaLinkedinIn, FaDribbble } from "react-icons/fa";
+import { useDispatch } from "react-redux";
+import { subscribeAction } from "../../redux/actions/subscribers"
 
 const Footer = ({}) => {
-  const [email, setEmail] = useState("");
-  const URL = process.env.PUBLIC_URL+"/subscribers";
-  const setSubscriber = (emil) => {
-    
+  const dispatch = useDispatch();
+  const [subscribeData, setSubscribeData] = useState({
+    email: "", 
+  });
+  const handleInputChange = (e) => {
+    subscribeData[e.target.name] = e.target.value;
   };
-  const [apiResult, setApiResult] = useState();
+  const handleSubscribe = async (e) => {
+    e.preventDefault();
+    await dispatch(subscribeAction(subscribeData))
+      .then(() => console.log("sucess"))
+      .catch((e) => console.error(e));
+  };
   return (
     <div className="footer">
       <div className="containers">
@@ -23,15 +32,10 @@ const Footer = ({}) => {
                 className="input-email"
                 type={"text"}
                 placeholder={"Email address"}
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                name="email"
+                onChange={handleInputChange}
               />
-              <input
-                className="input-btn"
-                type={"button"}
-                value={"Subscribe"}
-                onClick={() => setSubscriber(email)}
-              />
+              {/*
               <p
                 className={`${
                   apiResult && apiResult.success ? "green" : "red"
@@ -39,6 +43,13 @@ const Footer = ({}) => {
               >
                 {apiResult && apiResult.message}
               </p>
+              */}
+              <input
+                className="input-btn"
+                type={"button"}
+                value={"Subscribe"}
+                onClick={handleSubscribe}
+              />
             </div>
             <div className="socialmedia">
               <div className="container">

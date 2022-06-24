@@ -1,4 +1,5 @@
-const API_ROOT = process.env.PUBLIC_URL;
+const API_ROOT = process.env.REACT_APP_API_URL;
+console.log("TEST API", API_ROOT)
 
 const API_URLS = (extraData) => ({
   // the extraData can be used to send url params and request query data if needed to api.
@@ -17,10 +18,9 @@ const API_URLS = (extraData) => ({
     DELETE_USER: API_ROOT + "/users/",
   },
   SUPER_ADMIN: {},
-  TODO: {
-    ROOT: API_ROOT + "/todos/", // can make GET & POST  todo with this endpoint, difference being the http verb
-    BY_ID: API_ROOT + "/todos/" + extraData, // can make GET, POST, PATCH, PUT, and DELETE with this endpoint, difference being the http verb
-  },
+  SUBSCRIBERS : {
+    GET_NEW_SUBSCRIBERS : API_ROOT + "/subscribers"
+  }
 });
 
 export default API_URLS;
