@@ -14,22 +14,24 @@ import {
   } from "../constants";
   
   let initialState = {
-    user: JSON.parse(window.localStorage.getItem("user")) || null,
-    token: window.localStorage.getItem("token") || null,
+    success: false,
+    data: {
+      user: window.localStorage.getItem("user") || null,
+      token: window.localStorage.getItem("token") || null 
+    },
     isAuthenticated: false,
-    userInfo: []
   };
   
   const usersReducer = (state = initialState, action) => {
-    const { token, user } = action?.payload || {};
+    const { success, messages, data } = action?.payload || {};
     switch (action.type) {
       case FETCH_TOKEN:
-        window.localStorage.setItem("token", token);
-        window.localStorage.setItem("user", JSON.stringify(user));
+        window.localStorage.setItem("token", data?.token);
+        window.localStorage.setItem("user", JSON.stringify(data?.user));
         return {
-          ...state,
-          token,
-          user,
+          success,
+          messages,
+          data,
           isAuthenticated: true,
         };
       case SIGNUP_NEW_USER:

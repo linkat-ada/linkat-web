@@ -4,8 +4,7 @@ import { Link } from "react-router-dom";
 import { CgProfile } from "react-icons/cg";
 import Dropdown from "../Dropdown/Dropdown";
 
-const Navbar = ({ head, items }) => {
-  const ex = ["signin", "signup"];
+const Navbar = ({ head, items, exHead: ex }) => {
   const [isClicked, setIsClicked] = useState(false);
   return (
     <div className="navbar">

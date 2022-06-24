@@ -95,7 +95,6 @@ const LoginForm = ({  }) => {
               error={Boolean(touched.email && errors.email)}
               helperText={touched.email && errors.email}  
             />
-            Provide a valid email address
             <TextField
               fullWidth
               autoComplete="current-password"

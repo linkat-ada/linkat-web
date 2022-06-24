@@ -3,9 +3,9 @@ import { Link as RouterLink } from "react-router-dom";
 import { Container, Typography, Link, Box, Divider } from "@mui/material";
 import styled from "@emotion/styled";
 
-import SocialAuth from "../components/SocialAuth";
-import SignupForm from "../components/SignupForm";
-import Logo from "../components/Logo";
+import SocialAuth from "../../components/SocialAuth/SocialAuth";
+import SignupForm from "../../components/SignupForm/SignupForm";
+import Logo from "../../components/Logo/Logo";
 import { motion } from "framer-motion";
 
 //////////////////////////////////
@@ -98,7 +98,7 @@ const Signup = ({ setAuth }) => {
             sx={{ mt: 3 }}
           >
             Have an account?{" "}
-            <Link variant="subtitle2" component={RouterLink} to="/login">
+            <Link variant="subtitle2" component={RouterLink} to="/signin">
               Login
             </Link>
           </Typography>
