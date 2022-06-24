@@ -13,7 +13,7 @@ import {
     DELETE_USER
   } from "../constants";
 import API_URLS from "../../api";
-import { requestApi } from "../../helpers/index.js";
+import { requestApi } from "../../helper";
 
 export const signupAction = (userData) => {
   return async (dispatch) => {
@@ -31,7 +31,7 @@ export const signupAction = (userData) => {
 
 export const signinAction = (userData) => async (dispatch) => {
   let data = {
-    url: API_URLS().AUTH.LOGIN,
+    url: API_URLS().AUTH.SIGNIN,
     method: "POST",
     body: {
       ...userData,

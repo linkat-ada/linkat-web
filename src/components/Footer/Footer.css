@@ -1,6 +1,4 @@
 .footer {
-    position: absolute;
-    bottom: 0;
     background: black;
     width: 100%;
     height: max-content;
@@ -24,6 +22,7 @@
 .footer .containers .socialmedia-rights-subscribe .socialmedia {
     display: flex;
     flex-direction: row;
+    margin: .5em 0;
 }
 .social-icons {
     display: flex;
@@ -33,7 +32,6 @@
 .input-email {
     outline: none;
 }
-
 
 .footer-links.inline li
 {
@@ -140,7 +138,7 @@
 
 .input-email {
   border-radius: .2em;
-  padding: .1em .5em;
+  padding: 0 .2em;
 }
 
 .input-btn {

@@ -3,7 +3,7 @@ import "./Footer.css";
 import { BsTwitter } from "react-icons/bs";
 import { FaFacebookF, FaLinkedinIn, FaDribbble } from "react-icons/fa";
 import { useDispatch } from "react-redux";
-import { subscribeAction } from "../../redux/actions/subscribers"
+import { subscribeAction } from "../../redux/actions/subscribers";
 
 const Footer = ({}) => {
   const dispatch = useDispatch();
