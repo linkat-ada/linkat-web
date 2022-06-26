@@ -1,0 +1,13 @@
+.owo {
+    bottom: 0;
+    background: rgb(0, 0, 0);
+    width: 100%;
+    color:aliceblue;
+    display: flex;
+    justify-content: center;  
+}
+.name{
+    color: black;
+
+
+}

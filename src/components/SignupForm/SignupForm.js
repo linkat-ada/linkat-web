@@ -59,7 +59,7 @@ const SignupForm = ({}) => {
         .than(() => console.log("signup success"))
         .catch((err) => console.error(err));
       setTimeout(() => {
-        navigate("/", { replace: true });
+        navigate("/signin", { replace: true });
       }, 2000);
     },
   });

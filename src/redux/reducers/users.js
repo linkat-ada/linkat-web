@@ -49,8 +49,12 @@ import {
       case GET_USERINFO:
         return {
           ...state,
+          success: true,
           isAuthenticated: true,
-          userInfo: action?.payload
+          data : {
+            ...data,
+            user:JSON.stringify(action?.payload)
+          }
         };
       case UPDATE_PROFILEPIC:
         return {

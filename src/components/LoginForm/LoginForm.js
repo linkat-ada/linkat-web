@@ -5,7 +5,6 @@ import * as Yup from "yup";
 import { useSelector, useDispatch } from "react-redux";
 import { signinAction }  from "../../redux/actions/users";
 
-
 import {
   Box,
   Checkbox,
@@ -54,12 +53,8 @@ const LoginForm = ({  }) => {
     validationSchema: LoginSchema,
     onSubmit: async () => {
       await dispatch(signinAction({usernameOrEmail: formik?.values?.email , password: formik?.values?.password}))
-      .then(() => console.log("sucess !") )
+      .then(() => console.log("sucess !"))
       .catch((e) => console.error(e));
-      setTimeout(() => {
-        console.log("submited!!");
-        navigate(from, { replace: true });
-      }, 2000);
     }, 
   });
   const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } =
@@ -85,6 +80,7 @@ const LoginForm = ({  }) => {
             component={motion.div}
             initial={{ opacity: 0, y: 40 }}
             animate={animate}
+            
           >
             <TextField
               fullWidth

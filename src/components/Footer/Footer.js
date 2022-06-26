@@ -1,99 +1,105 @@
-import React, { useState } from "react";
-import "./Footer.css";
-import { BsTwitter } from "react-icons/bs";
-import { FaFacebookF, FaLinkedinIn, FaDribbble } from "react-icons/fa";
+import React,{ useState } from "react";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+import Container from "@mui/material/Container";
+import TextField from "@mui/material/TextField";
+import UnsubscribeIcon from "@mui/icons-material/Unsubscribe";
 import { useDispatch } from "react-redux";
 import { subscribeAction } from "../../redux/actions/subscribers";
 
-const Footer = ({}) => {
+const Copyright = () => {
+  return (
+    <Typography sx={{ mt: 1, fontSize:".8em"}} variant="body2" color="text.secondary">
+      {" 2021 Copyright © "}
+      Company, Inc. All rights reserved {new Date().getFullYear()}
+      {"."}
+    </Typography>
+  );
+};
+
+const Footer = ({ darlMode }) => {
   const dispatch = useDispatch();
+
   const [subscribeData, setSubscribeData] = useState({
     email: "", 
   });
+
   const handleInputChange = (e) => {
     subscribeData[e.target.name] = e.target.value;
   };
+  
   const handleSubscribe = async (e) => {
     e.preventDefault();
     await dispatch(subscribeAction(subscribeData))
-      .then(() => console.log("sucess"))
-      .catch((e) => console.error(e));
+      .then(() => console.log("subscribe: ", "sucess"))
+      .catch((err) => console.error("subscribe:", err));
   };
+
+
   return (
-    <div className="footer">
-      <div className="containers">
-        <h1>Linkat</h1>
-        <div className="socialmedia-rights-subscribe">
-          <div className="subscribe">
-            <h2>subscribe to our newsletter</h2>
-            <p>Monthly disgest of whats new and exciting from us</p>
-            <div className="input">
-              <input
-                className="input-email"
-                type={"text"}
-                placeholder={"Email address"}
-                name="email"
-                onChange={handleInputChange}
-              />
-              {/*
-              <p
-                className={`${
-                  apiResult && apiResult.success ? "green" : "red"
-                }`}
-              >
-                {apiResult && apiResult.message}
-              </p>
-              */}
-              <input
-                className="input-btn"
-                type={"button"}
-                value={"Subscribe"}
-                onClick={handleSubscribe}
-              />
-            </div>
-            <div className="socialmedia">
-              <div className="container">
-                <div className="row">
-                  <div className="col-md-4 col-sm-6 col-xs-12">
-                    <ul className="social-icons">
-                      <li>
-                        <a className="facebook" href="#">
-                          <i className="fa fa-facebook">
-                            <FaFacebookF/>
-                          </i>
-                        </a>
-                      </li>
-                      <li>
-                        <a className="twitter" href="#">
-                          <i className="fa fa-twitter">
-                            <BsTwitter />
-                          </i>
-                        </a>
-                      </li>
-                      <li>
-                        <a className="dribbble" href="#">
-                          <i className="fa fa-dribbble">
-                            <FaDribbble />
-                          </i>
-                        </a>
-                      </li>
-                      <li>
-                        <a className="linkedin" href="#">
-                          <i className="fa fa-linkedin">
-                            <FaLinkedinIn />
-                          </i>
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <p className="rights">2021&copy; Company, Inc. All rights reserved</p>
-        </div>
-      </div>
-    </div>
+    <Box
+      sx={{
+        display: { xs: "contents", md: "flex" },
+        flexDirection: "row",
+        minHeight: "20vh",
+        width: "100%",
+        justifyContent: "center",
+        borderRadius: 1,
+        p: 1,
+        bgcolor: "text.white",
+        color: "text.primary"
+      }}
+    >
+      <Container
+        component="div"
+        sx={{ mt: 2, mb: 2, display: "flex", flexDirection: "column" }}
+        maxWidth="sm"
+      >
+        <Typography variant="h3" gutterBottom>
+          Linkat
+        </Typography>
+      </Container>
+
+      <Container
+        component="div"
+        sx={{ mt: 1, mb: 1, display: "flex", flexDirection: "column" }}
+        maxWidth="sm"
+      >
+        <Typography variant="h6" gutterBottom>
+          Be the first to see the news
+        </Typography>
+        <Typography  variant="caption" sx={{size: "1em"}} gutterBottom>
+          Monthly disgest of whats new and exciting from us
+        </Typography>
+
+        <Container
+          component="main"
+          sx={{ mt: 1, ml: -3, mb: 1, display: "flex", flexDirection: "row" }}
+          maxWidth="sm"
+        >
+          <TextField
+            variant="outlined"
+            placeholder="Ex: ada@gamil.com"
+            id="demo-helper-text-aligned"
+            label="Email"
+            size="large"
+            name="email"
+            onChange={handleInputChange}
+          />
+          <Button
+            variant="solid"
+            color="neutral"
+            size="md"
+            startIcon={<UnsubscribeIcon />}
+            onClick={handleSubscribe}
+          >
+            Subscribe
+          </Button>
+        </Container>
+        <Copyright />
+      </Container>
+    </Box>
   );
 };
 

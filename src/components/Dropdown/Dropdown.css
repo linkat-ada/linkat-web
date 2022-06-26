@@ -56,6 +56,11 @@
     flex-direction: row;
 }
 
+.profile {
+    display: flex;
+    flex-direction: row;
+}
+
 .login {
     display: flex;
     flex-direction: row;

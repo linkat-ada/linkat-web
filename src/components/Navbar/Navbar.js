@@ -1,39 +1,184 @@
 import React, { useState } from "react";
-import "./Navbar.css";
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import Toolbar from "@mui/material/Toolbar";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import Menu from "@mui/material/Menu";
+import MenuIcon from "@mui/icons-material/Menu";
+import Container from "@mui/material/Container";
+import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
+import Tooltip from "@mui/material/Tooltip";
+import MenuItem from "@mui/material/MenuItem";
+import AdbIcon from "@mui/icons-material/Adb";
+import Dropdown from "../../components/Dropdown/Dropdown";
+import Logo from ".././Logo/Logo";
+import { useTheme, ThemeProvider, createTheme } from "@mui/material/styles";
+import Brightness4Icon from "@mui/icons-material/Brightness4";
+import Brightness7Icon from "@mui/icons-material/Brightness7";
 import { Link } from "react-router-dom";
-import { CgProfile } from "react-icons/cg";
-import Dropdown from "../Dropdown/Dropdown";
 
-const Navbar = ({ head, items, exHead: ex }) => {
-  const [isClicked, setIsClicked] = useState(false);
+function ThemMode({ ColorModeContext }) {
+  const theme = useTheme();
+  const colorMode = React.useContext(ColorModeContext);
   return (
-    <div className="navbar">
-      <Link className="link" to="/">
-        <div className="navbar-icon">
-          <h1>{head}</h1>
-        </div>
-      </Link>
-      <nav className="nav-menu">
-        <ul className="nav-menu-list">
-          {items.map((item, index) => (
-            <Link key={index} className="link nav-menu-item" to={`/${item}`}>
-              <li className="nav-menu-item">{item}</li>
-            </Link>
-          ))}
-        </ul>
-      </nav>
-      <nav className="nav-menu">
-        <ul className="nav-menu-list">
-          {ex.map((item, index) => (
-            <Link key={index} className="link nav-menu-item" to={`/${item}`}>
-              <li className="nav-menu-item">{item}</li>
-            </Link>
-          ))}
-        </ul>
-        <CgProfile className="profile-btn" size={"2em"} onClick={()=> setIsClicked(!isClicked)}/>
-        {isClicked && <Dropdown />}
-      </nav>
-    </div>
+    <Box sx={{ display: "flex", alignItems: "center", textAlign: "center" }}>
+      <IconButton
+        sx={{ ml: 1 }}
+        onClick={colorMode.toggleColorMode}
+        color="inherit"
+      >
+        {theme.palette.mode === "dark" ? (
+          <Brightness7Icon />
+        ) : (
+          <Brightness4Icon />
+        )}
+      </IconButton>
+    </Box>
+  );
+}
+
+const Navbar = ({ head, items: pages, exHead: settings, ColorModeContext }) => {
+  const [anchorElNav, setAnchorElNav] = React.useState(null);
+  const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const [mode, setMode] = React.useState("light");
+  const colorMode = React.useMemo(
+    () => ({
+      toggleColorMode: () => {
+        setMode((prevMode) => (prevMode === "light" ? "dark" : "light"));
+      },
+    }),
+    []
+  );
+
+  const theme = React.useMemo(
+    () =>
+      createTheme({
+        palette: {
+          mode,
+        },
+      }),
+    [mode]
+  );
+
+  const handleOpenNavMenu = (event) => {
+    setAnchorElNav(event.currentTarget);
+  };
+  const handleOpenUserMenu = (event) => {
+    setAnchorElUser(event.currentTarget);
+  };
+
+  const handleCloseNavMenu = () => {
+    setAnchorElNav(null);
+  };
+
+  const handleCloseUserMenu = () => {
+    setAnchorElUser(null);
+  };
+
+  return (
+    <AppBar position="static" color="inherit">
+      <Container maxWidth="xl">
+        <Toolbar disableGutters>
+          <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
+          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+            <IconButton
+              size="large"
+              aria-label="account of current user"
+              aria-controls="menu-appbar"
+              aria-haspopup="true"
+              onClick={handleOpenNavMenu}
+              color="inherit"
+            >
+              <MenuIcon />
+            </IconButton>
+            <Menu
+              id="menu-appbar"
+              anchorEl={anchorElNav}
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "left",
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "left",
+              }}
+              open={Boolean(anchorElNav)}
+              onClose={handleCloseNavMenu}
+              sx={{
+                display: { xs: "block", md: "none" },
+              }}
+            >
+              {pages.map((page, index) => (
+                <MenuItem key={page} onClick={handleCloseNavMenu}>
+                  <Link
+                    key={index}
+                    to={`/${page}`}
+                    style={{
+                      textDecoration: "none",
+                    }}
+                  >
+                    <Typography sx={{ 
+                    color: "text.primary" }}textAlign="center">{page}</Typography>
+                  </Link>
+                </MenuItem>
+              ))}
+            </Menu>
+          </Box>
+          <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
+          <Typography
+            variant="h5"
+            noWrap
+            component="a"
+            href=""
+            sx={{
+              mr: 2,
+              display: { xs: "flex", md: "none" },
+              flexGrow: 1,
+              fontFamily: "monospace",
+              fontWeight: 700,
+              letterSpacing: ".3rem",
+              color: "inherit",
+              textDecoration: "none",
+            }}
+          >
+            Linkat
+          </Typography>
+          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+            {pages.map((page, index) => (
+              <Link
+                key={index}
+                to={`/${page}`}
+                style={{
+                  textDecoration: "none",
+                }}
+              >
+                <Button
+                  key={page}
+                  onClick={handleCloseNavMenu}
+                  name={page}
+                  sx={{
+                    my: 2,
+                    color: "text.primary",
+                    display: "block",
+                    textTransform: "capitalize",
+                  }}
+                >
+                  {page}
+                </Button>
+              </Link>
+            ))}
+          </Box>
+
+          <Box sx={{ display: "flex", flexDirection: "row" }}>
+            <ThemMode ColorModeContext={ColorModeContext} />
+            <Dropdown />
+          </Box>
+        </Toolbar>
+      </Container>
+    </AppBar>
   );
 };
 
