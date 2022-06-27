@@ -3,7 +3,7 @@ import { Link as RouterLink, useLocation, useNavigate } from "react-router-dom";
 import { Form, FormikProvider, useFormik } from "formik";
 import * as Yup from "yup";
 import { useSelector, useDispatch } from "react-redux";
-import { signinAction }  from "../../redux/actions/users";
+import { signinAction } from "../../redux/actions/users";
 
 import {
   Box,
@@ -30,7 +30,7 @@ const animate = {
   },
 };
 
-const LoginForm = ({  }) => {
+const LoginForm = ({}) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const location = useLocation();
@@ -39,10 +39,20 @@ const LoginForm = ({  }) => {
   const [showPassword, setShowPassword] = useState(false);
 
   const LoginSchema = Yup.object().shape({
-    email: Yup.string()
-      .required("Email  or Username is required"),
+    email: Yup.string().required("Email  or Username is required"),
     password: Yup.string().required("Password is required"),
   });
+
+  const handleOnSignin = async (data) => {
+    console.log(data);
+    await dispatch(
+      signinAction({ usernameOrEmail: data.email, password: data.password })
+    )
+      .then((res) => {
+        console.log("signin action------------- ", res);
+      })
+      .catch((e) => console.error("-----------", e));
+  };
 
   const formik = useFormik({
     initialValues: {
@@ -52,17 +62,28 @@ const LoginForm = ({  }) => {
     },
     validationSchema: LoginSchema,
     onSubmit: async () => {
-      await dispatch(signinAction({usernameOrEmail: formik?.values?.email , password: formik?.values?.password}))
-      .then(() => console.log("sucess !"))
-      .catch((e) => console.error(e));
-    }, 
+      await dispatch(
+        signinAction({ usernameOrEmail: formik?.values?.email, password: formik?.values?.password })
+      )
+        .then((res) => {
+          console.log("signin action------------- ", res);
+        })
+        .catch((e) => console.error("-----------", e));
+    },
   });
   const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } =
     formik;
 
   return (
     <FormikProvider value={formik}>
-      <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
+      <Form
+        autoComplete="off"
+        noValidate
+        onSubmit={(e) => {
+          e.preventDefault();
+          handleSubmit(e);
+        }}
+      >
         <Box
           component={motion.div}
           animate={{
@@ -80,7 +101,6 @@ const LoginForm = ({  }) => {
             component={motion.div}
             initial={{ opacity: 0, y: 40 }}
             animate={animate}
-            
           >
             <TextField
               fullWidth
@@ -89,7 +109,7 @@ const LoginForm = ({  }) => {
               label="Email or Username "
               {...getFieldProps("email")}
               error={Boolean(touched.email && errors.email)}
-              helperText={touched.email && errors.email}  
+              helperText={touched.email && errors.email}
             />
             <TextField
               fullWidth

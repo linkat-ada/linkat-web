@@ -7,6 +7,7 @@ import TextField from "@mui/material/TextField";
 import UnsubscribeIcon from "@mui/icons-material/Unsubscribe";
 import { useDispatch } from "react-redux";
 import { subscribeAction } from "../../redux/actions/subscribers";
+import Divider from "@mui/material/Divider"
 
 const Copyright = () => {
   return (
@@ -40,15 +41,18 @@ const Footer = ({ darlMode }) => {
   return (
     <Box
       sx={{
-        display: { xs: "contents", md: "flex" },
-        flexDirection: "row",
+        display: "flex",
+        flexDirection: { xs: "column", md: "row",  },
         minHeight: "20vh",
         width: "100%",
         justifyContent: "center",
         borderRadius: 1,
         p: 1,
-        bgcolor: "text.white",
-        color: "text.primary"
+        color: "text.primary",
+        bgcolor: "background.default",
+        border: 1,
+        flexGrow: 1, 
+        borderColor: "text.primary"
       }}
     >
       <Container
@@ -56,7 +60,7 @@ const Footer = ({ darlMode }) => {
         sx={{ mt: 2, mb: 2, display: "flex", flexDirection: "column" }}
         maxWidth="sm"
       >
-        <Typography variant="h3" gutterBottom>
+        <Typography sx={{ fontSize:"3em", fontFamily:"unset" , fontWeight:"4em"}} variant="caption" gutterBottom>
           Linkat
         </Typography>
       </Container>
@@ -66,11 +70,11 @@ const Footer = ({ darlMode }) => {
         sx={{ mt: 1, mb: 1, display: "flex", flexDirection: "column" }}
         maxWidth="sm"
       >
-        <Typography variant="h6" gutterBottom>
+        <Typography sx={{fontSize: "1.5em", fontWeight: "2em"}} variant="caption" gutterBottom>
           Be the first to see the news
         </Typography>
         <Typography  variant="caption" sx={{size: "1em"}} gutterBottom>
-          Monthly disgest of whats new and exciting from us
+            Monthly disgest of whats new and exciting from us
         </Typography>
 
         <Container

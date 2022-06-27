@@ -15,10 +15,7 @@ import {
   
   let initialState = {
     success: false,
-    data: {
-      user: window.localStorage.getItem("user") || null,
-      token: window.localStorage.getItem("token") || null 
-    },
+    data: {},
     isAuthenticated: false,
   };
   
@@ -36,14 +33,16 @@ import {
         };
       case SIGNUP_NEW_USER:
         return {
-          ...state,
-          signupSuccess: true,
+          success,
+          data,
+          messages, 
         };
       case FETCH_TOKEN_FAILED:
+        window.localStorage.removeItem("token");
+        window.localStorage.removeItem("user");
         return {
-          ...state,
-          user: null,
-          token: null,
+          data,
+          success: false,
           isAuthenticated: false,
         };
       case GET_USERINFO:

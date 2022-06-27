@@ -15,6 +15,7 @@ import {
 import API_URLS from "../../api";
 import { requestApi } from "../../helper";
 
+
 export const signupAction = (userData) => {
   return async (dispatch) => {
     let data = {
@@ -52,8 +53,7 @@ export const logoutAction = () => async (dispatch) => {
     url: API_URLS().AUTH.LOGOUT,
     method: "POST",
   };
-  await requestApi(data);
-  dispatch({ type: TOKEN_REMOVE });
+  await requestApi(data).then(() => dispatch({ type: TOKEN_REMOVE }))
 };
 
 export const getUserInfoAction = () => async (dispatch) => {

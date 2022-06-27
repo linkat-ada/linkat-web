@@ -14,6 +14,8 @@ import People from "./pages/People/People";
 import { Route, Routes } from "react-router-dom";
 import { useTheme, ThemeProvider, createTheme } from "@mui/material/styles";
 
+import { amber, deepOrange, grey } from '@mui/material/colors';
+
 const App = () => {
   const navbarItems = ["home", "about-us", "contact-us", "people"];
   const ex = ["signin", "signup"];
@@ -33,6 +35,29 @@ const App = () => {
       createTheme({
         palette: {
           mode,
+          primary: {
+            ...grey,
+            ...(mode === 'dark' && {
+              main: grey[900],
+            }),
+          },
+          ...(mode === 'dark' && {
+            background: {
+              default: grey[900],
+              paper: grey[900],
+            },
+          }),
+          text: {
+            ...(mode === 'light'
+              ? {
+                  primary: grey[900],
+                  secondary: grey[800],
+                }
+              : {
+                  primary: '#fff',
+                  secondary: grey[500],
+                }),
+          },
         },
       }),
     [mode]
@@ -45,6 +70,7 @@ const App = () => {
           items={navbarItems}
           exHead={ex}
           ColorModeContext={ColorModeContext}
+          theme={theme}
         />
         <Routes>
           <Route path={`/`} element={<Home />} />

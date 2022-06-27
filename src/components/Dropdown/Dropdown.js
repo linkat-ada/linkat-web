@@ -140,7 +140,7 @@ const Dropdown = ({ eventButton }) => {
           <ListItemIcon>
             <Logout fontSize="small" />
           </ListItemIcon>
-          {isAuthenticated ? "Logout" : "signin"}
+          {isAuthenticated ? "Logout" : "Sign in"}
         </MenuItem>
       </Menu>
     </React.Fragment>

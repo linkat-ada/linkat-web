@@ -9,9 +9,9 @@ body {
 }
 
 .card-img-top{
-    height: 30em;
-    width: 20em;
-    padding: 1em 4em;
+    height: 20em;
+    width: auto;
+    padding: 1em;
 }
 
 .card-no-border .card {

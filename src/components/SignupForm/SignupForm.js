@@ -56,11 +56,8 @@ const SignupForm = ({}) => {
     validationSchema: SignupSchema,
     onSubmit: async () => {
       await dispatch(signupAction(formik.values))
-        .than(() => console.log("signup success"))
+        .then(() => navigate("/signin", { replace: true }))
         .catch((err) => console.error(err));
-      setTimeout(() => {
-        navigate("/signin", { replace: true });
-      }, 2000);
     },
   });
 

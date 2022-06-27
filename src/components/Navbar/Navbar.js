@@ -19,8 +19,7 @@ import Brightness4Icon from "@mui/icons-material/Brightness4";
 import Brightness7Icon from "@mui/icons-material/Brightness7";
 import { Link } from "react-router-dom";
 
-function ThemMode({ ColorModeContext }) {
-  const theme = useTheme();
+function ThemMode({ ColorModeContext ,theme}) {
   const colorMode = React.useContext(ColorModeContext);
   return (
     <Box sx={{ display: "flex", alignItems: "center", textAlign: "center" }}>
@@ -39,28 +38,9 @@ function ThemMode({ ColorModeContext }) {
   );
 }
 
-const Navbar = ({ head, items: pages, exHead: settings, ColorModeContext }) => {
+const Navbar = ({ head, items: pages, exHead: settings, ColorModeContext, theme }) => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
-  const [mode, setMode] = React.useState("light");
-  const colorMode = React.useMemo(
-    () => ({
-      toggleColorMode: () => {
-        setMode((prevMode) => (prevMode === "light" ? "dark" : "light"));
-      },
-    }),
-    []
-  );
-
-  const theme = React.useMemo(
-    () =>
-      createTheme({
-        palette: {
-          mode,
-        },
-      }),
-    [mode]
-  );
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -173,7 +153,7 @@ const Navbar = ({ head, items: pages, exHead: settings, ColorModeContext }) => {
           </Box>
 
           <Box sx={{ display: "flex", flexDirection: "row" }}>
-            <ThemMode ColorModeContext={ColorModeContext} />
+            <ThemMode ColorModeContext={ColorModeContext} theme={theme}/>
             <Dropdown />
           </Box>
         </Toolbar>
