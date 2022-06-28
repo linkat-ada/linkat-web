@@ -15,7 +15,10 @@ import {
   
   let initialState = {
     success: false,
-    data: {},
+    data:{
+      token: window.localStorage.getItem("token") || null,
+      user: JSON.parse(window.localStorage.getItem("user")) || null
+    },
     isAuthenticated: false,
   };
   

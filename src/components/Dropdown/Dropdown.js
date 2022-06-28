@@ -25,7 +25,7 @@ import { useDispatch } from "react-redux";
 import EditIcon from "@mui/icons-material/Edit";
 
 const Dropdown = ({ eventButton }) => {
-  const { isAuthenticated } = useSelector((state) => state.auth);
+  const isAuthenticated = useSelector((state) => state.auth.data.token);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = React.useState(null);

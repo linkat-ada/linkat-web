@@ -18,21 +18,21 @@ return (
             }}
           >
             <TextField
-              id="standard-basic"
+              id="Current password"
               label="Current password"
               variant="standard"
               type={"password"}
               helperText={`Enter password for authorization to change password`}
             />
             <TextField
-              id="standard-basic"
+              id="New password"
               label="New password"
               variant="standard"
               type={"password"}
               helperText={`Enter the new password here`}
             />
             <TextField
-              id="standard-basic"
+              id="Password confirmation"
               label="Password confirmation"
               variant="standard"
               type={"password"}

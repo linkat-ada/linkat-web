@@ -11,8 +11,11 @@ import Signup from "./pages/Signup/Signup";
 import AboutUs from "./pages/AboutUs/AboutUs";
 import ContactUs from "./pages/ContactUs/ContactUs";
 import People from "./pages/People/People";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes,BrowserRouter } from "react-router-dom";
 import { useTheme, ThemeProvider, createTheme } from "@mui/material/styles";
+
+
+import ChangeEmail from "./components/EditProfile/ChangeEmail";
 
 import { amber, deepOrange, grey } from '@mui/material/colors';
 
@@ -81,10 +84,11 @@ const App = () => {
           <Route path={`/about-us`} element={<AboutUs />} />
           <Route path={`/contact-us`} element={<ContactUs />} />
           <Route path={`/people`} element={<People />} />
-          <Route path={`/editprofile`} element={<EditProfile />} />
+          <Route path={`/editprofile/`} element={<EditProfile />} />
+          <Route path={`/editprofile/:option`} element={<EditProfile />} />
         </Routes>
         <Notification />
-        <Footer />
+        {/*<Footer />*/}
       </ThemeProvider>
     </ColorModeContext.Provider>
   );

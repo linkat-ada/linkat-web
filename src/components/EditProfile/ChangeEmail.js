@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import Stack from "@mui/material/Stack";
@@ -9,7 +9,9 @@ import Button from "@mui/material/Button";
 import { useSelector } from "react-redux";
 
 
-const ChangeEmail = ({ user }) => {
+const ChangeEmail = () => {
+  const user = useSelector((state) => state?.auth?.data?.user)
+  console.log(user, "dd")
     return (
         <Container
         sx={{
@@ -19,7 +21,6 @@ const ChangeEmail = ({ user }) => {
         }}
       >
         <TextField
-          id="standard-basic"
           label="Email"
           variant="standard"
           type={"email"}
@@ -27,7 +28,6 @@ const ChangeEmail = ({ user }) => {
           defaultValue={user.email}
         />
         <TextField
-          id="standard-basic"
           label="Password"
           variant="standard"
           type={"password"}

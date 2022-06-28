@@ -9,7 +9,8 @@ import Button from "@mui/material/Button";
 import { useSelector } from "react-redux";
 
 
-const ChangeUsername = ({user}) => {
+const ChangeUsername = ({}) => {
+  const user = useSelector((state) => state?.auth?.data?.user)
   return (
     <Container
       sx={{
@@ -23,7 +24,7 @@ const ChangeUsername = ({user}) => {
         label="Username"
         variant="standard"
         helperText={`To change the current username.`}
-        defaultValue={user.username}
+        defaultValue={user?.username}
       />
       <TextField
         id="standard-basic"

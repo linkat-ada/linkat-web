@@ -8,6 +8,8 @@ import UnsubscribeIcon from "@mui/icons-material/Unsubscribe";
 import { useDispatch } from "react-redux";
 import { subscribeAction } from "../../redux/actions/subscribers";
 import Divider from "@mui/material/Divider"
+import { positions } from "@mui/system";
+import "./Footer.css";
 
 const Copyright = () => {
   return (
@@ -39,7 +41,8 @@ const Footer = ({ darlMode }) => {
 
 
   return (
-    <Box
+    <div className="footer">
+      <Box
       sx={{
         display: "flex",
         flexDirection: { xs: "column", md: "row",  },
@@ -52,7 +55,7 @@ const Footer = ({ darlMode }) => {
         bgcolor: "background.default",
         border: 1,
         flexGrow: 1, 
-        borderColor: "text.primary"
+        borderColor: "text.primary",
       }}
     >
       <Container
@@ -104,6 +107,7 @@ const Footer = ({ darlMode }) => {
         <Copyright />
       </Container>
     </Box>
+    </div>
   );
 };
 

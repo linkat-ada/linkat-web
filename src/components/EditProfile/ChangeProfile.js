@@ -9,8 +9,8 @@ import Button from "@mui/material/Button";
 import { useSelector } from "react-redux";
 
 
-const ChangeProfile = ({ user }) => {
-
+const ChangeProfile = () => {
+  const user = useSelector((state) => state?.auth?.data?.user)
     return (
         <Container
             sx={{
