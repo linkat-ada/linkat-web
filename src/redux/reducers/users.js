@@ -44,7 +44,10 @@ import {
         window.localStorage.removeItem("token");
         window.localStorage.removeItem("user");
         return {
-          data,
+          data: {
+            user: null,
+            token: null
+          },
           success: false,
           isAuthenticated: false,
         };
