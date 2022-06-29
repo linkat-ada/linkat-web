@@ -54,7 +54,7 @@ const LoginForm = ({ }) => {
   const handleLogin = async (e) => {
     e.preventDefault();
     await dispatch(signinAction(userData))
-      .then(() => navigate("/todos"))
+      .then(() => navigate("/profile"))
       .catch((e) => console.error(e));
   };
 
