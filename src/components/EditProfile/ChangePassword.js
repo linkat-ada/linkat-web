@@ -1,55 +1,75 @@
-import React from "react";
-import Box from "@mui/material/Box";
+import React, { useState } from "react";
 import Container from "@mui/material/Container";
-import Stack from "@mui/material/Stack";
-import Avatar from "@mui/material/Avatar";
-import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { updatePasswordAction } from "../../redux/actions/users";
 
 const ChangePassword = () => {
-return (
+  const dispatch = useDispatch();
+  const [data, setData] = useState({
+    currPassword: "",
+    newPassword: "",
+    newPasswordConfirmation: "",
+  });
+
+  const handleInputChange = (e) => {
+    data[e.target.name] = e.target.value;
+  };
+
+  const handleOnChangePassword = async () => {
+    await dispatch(updatePasswordAction(data))
+      .then(() => console.log("yes"))
+      .catch(() => console.log("no"));
+  };
+  return (
     <Container
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              ml: "4em",
-            }}
-          >
-            <TextField
-              id="Current password"
-              label="Current password"
-              variant="standard"
-              type={"password"}
-              helperText={`Enter password for authorization to change password`}
-            />
-            <TextField
-              id="New password"
-              label="New password"
-              variant="standard"
-              type={"password"}
-              helperText={`Enter the new password here`}
-            />
-            <TextField
-              id="Password confirmation"
-              label="Password confirmation"
-              variant="standard"
-              type={"password"}
-              helperText={`Enter the password confirmation here`}
-            />
-            <Button
-              sx={{
-                width: "fit-content",
-                ml: "2em",
-              }}
-              variant="contained"
-              size="small"
-            >
-              change password
-            </Button>
-          </Container>
-)
-}
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        ml: "4em",
+      }}
+    >
+      <TextField
+        id="Current password"
+        label="Current password"
+        variant="standard"
+        type={"password"}
+        name={"currPassword"}
+        helperText={`Enter password for authorization to change password`}
+        onChange={handleInputChange}
+      />
+      <TextField
+        id="New password"
+        label="New password"
+        variant="standard"
+        type={"password"}
+        name={"newPassword"}
+        helperText={`Enter the new password here`}
+        onChange={handleInputChange}
+      />
+      <TextField
+        id="Password confirmation"
+        label="Password confirmation"
+        variant="standard"
+        type={"password"}
+        name={"newPasswordConfirmation"}
+        helperText={`Enter the password confirmation here`}
+        onChange={handleInputChange}
+      />
+      <Button
+        sx={{
+          width: "fit-content",
+          ml: "2em",
+        }}
+        variant="contained"
+        size="small"
+        onClick={handleOnChangePassword}
+      >
+        change password
+      </Button>
+    </Container>
+  );
+};
 
 export default ChangePassword;

@@ -1,14 +1,13 @@
 import { combineReducers } from "redux";
 import usersReducer from "./users";
 import subscribersReducer from "./subscribers";
-import notificationsReducer from "./notifications"
+import notificationsReducer from "./notifications";
+import linksReducer from "./links";
 
 const allReducers = combineReducers({
     auth: usersReducer,
-    //links: linksReducer,
+    links: linksReducer,
     //qrcodes: qrcodesReducer,
-    //superadmins: superadminsReducer,
-    //admins: adminsReducer,
     subscribers: subscribersReducer,
     notifications: notificationsReducer
 })

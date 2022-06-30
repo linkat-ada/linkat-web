@@ -115,7 +115,7 @@ export const updatePasswordAction = (userData) => async (dispatch) => {
     };
     await requestApi(data)
       .then((res) => {
-        dispatch({ type: UPDATE_USERNAME });
+        dispatch({ type: UPDATE_USERNAME , payload: res?.data});
       })
       .catch((e) => {
         console.error(e);
@@ -148,7 +148,7 @@ export const updatePasswordAction = (userData) => async (dispatch) => {
     };
     await requestApi(data)
       .then((res) => {
-        dispatch({ type: UPDATE_PROFILEPIC });
+        dispatch({ type: UPDATE_PROFILEPIC, payload: res?.data });
       })
       .catch((e) => {
         console.error(e);
@@ -164,7 +164,7 @@ export const updatePasswordAction = (userData) => async (dispatch) => {
     };
     await requestApi(data)
       .then((res) => {
-        dispatch({ type: UPDATE_BGPIC });
+        dispatch({ type: UPDATE_BGPIC, payload: res?.data });
       })
       .catch((e) => {
         console.error(e);

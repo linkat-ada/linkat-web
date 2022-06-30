@@ -11,13 +11,12 @@ import Signup from "./pages/Signup/Signup";
 import AboutUs from "./pages/AboutUs/AboutUs";
 import ContactUs from "./pages/ContactUs/ContactUs";
 import People from "./pages/People/People";
-import { Route, Routes,BrowserRouter } from "react-router-dom";
+import { Route, Routes, BrowserRouter } from "react-router-dom";
 import { useTheme, ThemeProvider, createTheme } from "@mui/material/styles";
-
-
+import RequireAuth from "./RequiredAuth";
 import ChangeEmail from "./components/EditProfile/ChangeEmail";
 
-import { amber, deepOrange, grey } from '@mui/material/colors';
+import { amber, deepOrange, grey } from "@mui/material/colors";
 
 const App = () => {
   const navbarItems = ["home", "about-us", "contact-us", "people"];
@@ -40,24 +39,24 @@ const App = () => {
           mode,
           primary: {
             ...grey,
-            ...(mode === 'dark' && {
+            ...(mode === "dark" && {
               main: grey[900],
             }),
           },
-          ...(mode === 'dark' && {
+          ...(mode === "dark" && {
             background: {
               default: grey[900],
               paper: grey[900],
             },
           }),
           text: {
-            ...(mode === 'light'
+            ...(mode === "light"
               ? {
                   primary: grey[900],
                   secondary: grey[800],
                 }
               : {
-                  primary: '#fff',
+                  primary: "#fff",
                   secondary: grey[500],
                 }),
           },
@@ -76,19 +75,21 @@ const App = () => {
           theme={theme}
         />
         <Routes>
-          <Route path={`/`} element={<Home />} />
-          <Route path={`/home`} element={<Home />} />
           <Route path={`/signin`} element={<Signin />} />
           <Route path={`/signup`} element={<Signup />} />
-          <Route path={`/profile`} element={<Profile />} />
+          <Route path={`/home`} element={<Home />} />
           <Route path={`/about-us`} element={<AboutUs />} />
           <Route path={`/contact-us`} element={<ContactUs />} />
-          <Route path={`/people`} element={<People />} />
-          <Route path={`/editprofile/`} element={<EditProfile />} />
-          <Route path={`/editprofile/:option`} element={<EditProfile />} />
+          <Route element={<RequireAuth />}>
+            <Route path={`/`} element={<Home />} />
+            <Route path={`/profile`} element={<Profile />} />
+            <Route path={`/people`} element={<People />} />
+            <Route path={`/editprofile/`} element={<EditProfile />} />
+            <Route path={`/editprofile/:option`} element={<EditProfile />} />
+          </Route>
         </Routes>
         <Notification />
-        {/*<Footer />*/}
+        <Footer />
       </ThemeProvider>
     </ColorModeContext.Provider>
   );

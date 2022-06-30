@@ -25,7 +25,7 @@ import { useDispatch } from "react-redux";
 import EditIcon from "@mui/icons-material/Edit";
 
 const Dropdown = ({ eventButton }) => {
-  const isAuthenticated = useSelector((state) => state.auth.data.token);
+  const isAuthenticated = useSelector((state) => state?.auth?.data?.isAuthenticated);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -39,7 +39,7 @@ const Dropdown = ({ eventButton }) => {
   const logout = async () => {
     await dispatch(logoutAction())
       .then(() => navigate("/signin"))
-      .catch((err) => console.err(err));
+      .catch((err) => console.error(err));
   };
   return (
     <React.Fragment>

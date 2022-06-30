@@ -1,16 +1,29 @@
-import React from "react";
-import Box from "@mui/material/Box";
+import React, { useState } from "react";
 import Container from "@mui/material/Container";
-import Stack from "@mui/material/Stack";
-import Avatar from "@mui/material/Avatar";
-import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import { useSelector } from "react-redux";
-
+import { useSelector, useDispatch } from "react-redux";
+import { updateUsernameAction } from "../../redux/actions/users";
 
 const ChangeUsername = ({}) => {
-  const user = useSelector((state) => state?.auth?.data?.user)
+  const user = useSelector((state) => state?.auth?.data?.user);
+  const [data, setData] = useState({newUsername:"", password:""})
+  const dispatch = useDispatch();
+
+  const handleOnChangeInput = (e) => {
+    data[e.target.name] = e.target.value;
+  }
+
+  const handleOnChangeUsername = async () => {
+    await dispatch(updateUsernameAction(data))
+      .then(() => {
+        console.log("yes");
+      })
+      .catch(() => {
+        console.log("no");
+      });
+  };
+
   return (
     <Container
       sx={{
@@ -20,17 +33,23 @@ const ChangeUsername = ({}) => {
       }}
     >
       <TextField
-        id="standard-basic"
+        id="Username"
         label="Username"
         variant="standard"
         helperText={`To change the current username.`}
         defaultValue={user?.username}
+        required={false}
+        name="newUsername"
+        onChange={handleOnChangeInput}
       />
       <TextField
-        id="standard-basic"
+        id="Re-Enter password"
         label="Re-Enter password"
         variant="standard"
         helperText={`Enter password for authorization to change username`}
+        required={false}
+        name="password"
+        onChange={handleOnChangeInput}
       />
       <Button
         sx={{
@@ -39,6 +58,7 @@ const ChangeUsername = ({}) => {
         }}
         variant="contained"
         size="small"
+        onClick={handleOnChangeUsername} 
       >
         submit
       </Button>

@@ -1,35 +1,24 @@
 import React from "react";
-import Toolbar from "@mui/material/Toolbar";
-import MuiDrawer from "@mui/material/Drawer";
 import {
-  Box,
-  CssBaseline,
   List,
-  Typography,
-  Divider,
   ListItem,
   ListItemButton,
   ListItemIcon,
   ListItemText,
-  IconButton,
   Link,
 } from "@mui/material";
 
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import WallpaperIcon from "@mui/icons-material/Wallpaper";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
 import LockIcon from "@mui/icons-material/Lock";
+import FeedIcon from '@mui/icons-material/Feed';
 import MailIcon from "@mui/icons-material/Mail";
-import CoPresentIcon from "@mui/icons-material/CoPresent";
 import BadgeIcon from "@mui/icons-material/Badge";
-import ContactPageIcon from "@mui/icons-material/ContactPage";
 
-const DrawerList = ({ open }) => {
+const DrawerList = ({ open, setOpen }) => {
   return (
     <List>
-      <Link href="/editprofile/changeprofilepic">
+      <Link sx={{ color:"inherit" , textDecoration:"none"}} href="/editprofile/changeprofilepic">
         <ListItem
           key={"ChangeProfilePic"}
           sx={{ display: "block" }}
@@ -58,7 +47,7 @@ const DrawerList = ({ open }) => {
           </ListItemButton>
         </ListItem>
       </Link>
-      <Link href="/editprofile/changebgpic">
+      <Link sx={{ color:"inherit" , textDecoration:"none"}} href="/editprofile/changebgpic">
         <ListItem key={"ChangeBgPic"} sx={{ display: "block" }} disablePadding>
           <ListItemButton
             sx={{
@@ -83,7 +72,7 @@ const DrawerList = ({ open }) => {
           </ListItemButton>
         </ListItem>
       </Link>
-      <Link href="/editprofile/changemail">
+      <Link sx={{ color:"inherit" , textDecoration:"none"}} href="/editprofile/changemail">
         <ListItem key={"ChangeEmail"} sx={{ display: "block" }} disablePadding>
           <ListItemButton
             sx={{
@@ -108,7 +97,7 @@ const DrawerList = ({ open }) => {
           </ListItemButton>
         </ListItem>
       </Link>
-      <Link href="/editprofile/changepassword">
+      <Link sx={{ color:"inherit" , textDecoration:"none"}} href="/editprofile/changepassword">
         <ListItem
           key={"ChangePassword"}
           sx={{ display: "block" }}
@@ -138,7 +127,7 @@ const DrawerList = ({ open }) => {
           </ListItemButton>
         </ListItem>
       </Link>
-      <Link href="/editprofile/changeprofile">
+      <Link sx={{ color:"inherit" , textDecoration:"none"}} href="/editprofile/changeprofile">
         <ListItem
           key={"ChangeProfile"}
           sx={{ display: "block" }}
@@ -158,7 +147,7 @@ const DrawerList = ({ open }) => {
                 justifyContent: "center",
               }}
             >
-              <CoPresentIcon />
+              <FeedIcon />
             </ListItemIcon>
             <ListItemText
               primary={"Bio and Nickname"}
@@ -167,7 +156,8 @@ const DrawerList = ({ open }) => {
           </ListItemButton>
         </ListItem>
       </Link>
-      <Link href="/editprofile/changeusername">
+      
+      <Link sx={{ color:"inherit" , textDecoration:"none"}} href="/editprofile/changeusername">
         <ListItem
           key={"ChangeUsername"}
           sx={{ display: "block" }}

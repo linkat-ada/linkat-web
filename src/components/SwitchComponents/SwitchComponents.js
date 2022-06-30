@@ -27,12 +27,14 @@ export default function SwitchComponents({ option }) {
     case "changeprofile":
       optionCompoenet = <ChangeProfile name="changeprofile" />;
       break;
-    case "changebgpic":
-      optionCompoenet = <ChangeBgPic name="ChangeBgPic" />;
     case "changeusername":
       optionCompoenet = <ChangeUsername name="ChangeUsername" />;
+      break;
+    case "changebgpic":
+      optionCompoenet = <ChangeBgPic name="ChangeBgPic" />;
+       break;
     default:
-      optionCompoenet = <ChangeProfilePic name="ChangeProfilePic" />;
+      optionCompoenet = <ChangeProfile name="changeprofile" />;
       break;
   }
   return <div>{ optionCompoenet }</div>;

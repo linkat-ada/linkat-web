@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link as RouterLink, useLocation, useNavigate } from "react-router-dom";
-import { Form, FormikProvider, useFormik } from "formik";
-import * as Yup from "yup";
+// import { Form, FormikProvider, useFormik } from "formik";
+// import * as Yup from "yup";
 import { useSelector, useDispatch } from "react-redux";
 import { signinAction } from "../../redux/actions/users";
 
@@ -30,59 +30,71 @@ const animate = {
   },
 };
 
-const LoginForm = ({}) => {
+const LoginForm = ({ }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const location = useLocation();
-  const from = location.state?.from?.pathname || "/";
-
+  // const location = useLocation();
+  // const from = location.state?.from?.pathname || "/";
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [userData, setUserData] = useState({
+    usernameOrEmail: "",
+    password: "",
+  });
   const [showPassword, setShowPassword] = useState(false);
 
-  const LoginSchema = Yup.object().shape({
-    email: Yup.string().required("Email  or Username is required"),
-    password: Yup.string().required("Password is required"),
-  });
+  // const LoginSchema = Yup.object().shape({
+  //   email: Yup.string().required("Email  or Username is required"),
+  //   password: Yup.string().required("Password is required"),
+  // });
 
-  const handleOnSignin = async (data) => {
-    console.log(data);
-    await dispatch(
-      signinAction({ usernameOrEmail: data.email, password: data.password })
-    )
-      .then((res) => {
-        console.log("signin action------------- ", res);
-      })
-      .catch((e) => console.error("-----------", e));
+  const handleInputChange = (e) => {
+    userData[e.target.name] = e.target.value;
   };
 
-  const formik = useFormik({
-    initialValues: {
-      email: "",
-      password: "",
-      remember: true,
-    },
-    validationSchema: LoginSchema,
-    onSubmit: async () => {
-      await dispatch(
-        signinAction({ usernameOrEmail: formik?.values?.email, password: formik?.values?.password })
-      )
-        .then((res) => {
-          console.log("signin action------------- ", res);
-        })
-        .catch((e) => console.error("-----------", e));
-    },
-  });
-  const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } =
-    formik;
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    await dispatch(signinAction(userData))
+      .then(() => navigate("/profile"))
+      .catch((e) => console.error(e));
+  };
+
+  // const handleOnSignin = async (data) => {
+  //   console.log(data);
+  //   await dispatch(
+  //     signinAction({ usernameOrEmail: data.email, password: data.password })
+  //   )
+  //     .then((res) => {
+  //       console.log("signin action------------- ", res);
+  //     })
+  //     .catch((e) => console.error("-----------", e));
+  // };
+
+  // const formik = useFormik({
+  //   initialValues: {
+  //     email: "",
+  //     password: "",
+  //     remember: true,
+  //   },
+  //   validationSchema: LoginSchema,
+  //   onSubmit: async () => {
+  //     await dispatch(
+  //       signinAction({ usernameOrEmail: formik?.values?.email, password: formik?.values?.password })
+  //     )
+  //       .then((res) => {
+  //         console.log("signin action------------- ", res);
+  //       })
+  //       .catch((e) => console.error("-----------", e));
+  //   },
+  // });
+  // const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } =
+  //   formik;
 
   return (
-    <FormikProvider value={formik}>
-      <Form
+    // <FormikProvider value={formik}>
+      <form
         autoComplete="off"
         noValidate
-        onSubmit={(e) => {
-          e.preventDefault();
-          handleSubmit(e);
-        }}
+        onSubmit={handleLogin}
       >
         <Box
           component={motion.div}
@@ -107,18 +119,18 @@ const LoginForm = ({}) => {
               autoComplete="username"
               type="string"
               label="Email or Username "
-              {...getFieldProps("email")}
-              error={Boolean(touched.email && errors.email)}
-              helperText={touched.email && errors.email}
+              name="usernameOrEmail"
+              helperText="Enter your username or email"
+              onChange={handleInputChange}
             />
             <TextField
               fullWidth
               autoComplete="current-password"
               type={showPassword ? "text" : "password"}
               label="Password"
-              {...getFieldProps("password")}
-              error={Boolean(touched.password && errors.password)}
-              helperText={touched.password && errors.password}
+              name="password"
+              helperText="Enter your password"
+              onChange={handleInputChange}
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
@@ -150,10 +162,7 @@ const LoginForm = ({}) => {
             >
               <FormControlLabel
                 control={
-                  <Checkbox
-                    {...getFieldProps("remember")}
-                    checked={values.remember}
-                  />
+                  <Checkbox/>
                 }
                 label="Remember me"
               />
@@ -179,8 +188,8 @@ const LoginForm = ({}) => {
             </LoadingButton>
           </Box>
         </Box>
-      </Form>
-    </FormikProvider>
+      </form>
+    // </FormikProvider>
   );
 };
 

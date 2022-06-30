@@ -1,33 +1,19 @@
-import React,{ useState } from "react";
+import React, { useState } from "react";
 import { styled, useTheme } from "@mui/material/styles";
 import MuiAppBar from "@mui/material/AppBar";
 import MuiDrawer from "@mui/material/Drawer";
-import {
-  Box,
-  CssBaseline,
-  List,
-  Typography,
-  Divider,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-  IconButton,
-} from "@mui/material";
-
+import { Box, CssBaseline, Divider, IconButton } from "@mui/material";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import WallpaperIcon from "@mui/icons-material/Wallpaper";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import AccountBoxIcon from "@mui/icons-material/AccountBox";
-import LockIcon from "@mui/icons-material/Lock";
-import MailIcon from "@mui/icons-material/Mail";
-import CoPresentIcon from "@mui/icons-material/CoPresent";
-import BadgeIcon from "@mui/icons-material/Badge";
-import ContactPageIcon from "@mui/icons-material/ContactPage";
 import SwitchComponents from "../../components/SwitchComponents/SwitchComponents";
 import DrawerList from "../../components/DrawerList/DrawerList";
+import {
+  ChangeProfilePic,
+  ChangeBgPic,
+} from "../../components/EditProfile/index.js";
 import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
+import "./EditProfile.css";
 
 const drawerWidth = 240;
 
@@ -98,27 +84,18 @@ const Drawer = styled(MuiDrawer, {
 
 const EditProfile = () => {
   const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
   const { option } = useParams();
-
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
-
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
+  const user = useSelector((state) => state?.auth?.data?.user);
 
   return (
-    <Box sx={{ display: "flex" }}>
-      <CssBaseline />
-      <Drawer sx={{ zIndex: "-999" }} variant="permanent" open={open}>
-        <DrawerHeader />
+    <div className="editprofile">
+      <Drawer sx={{ margin: "" }} variant="permanent" open={open}>
         <DrawerHeader />
         <DrawerHeader />
         <DrawerHeader>
           <IconButton
-            onClick={() => {;
+            onClick={() => {
               setOpen(!open);
             }}
           >
@@ -126,12 +103,51 @@ const EditProfile = () => {
           </IconButton>
         </DrawerHeader>
         <Divider />
-        <DrawerList open={open}/>
+        <DrawerList setOpen={setOpen} open={open} />
       </Drawer>
-      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-        <SwitchComponents option={ option } />
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          justifyItems: "center",
+          m: "0 auto",
+          height: "100vh",
+        }}
+      >
+        <CssBaseline />
+        {!option || option == "changeprofilepic" ? (
+          <Box
+            component="main"
+            sx={{ flexGrow: 1, pl: 0, pr: 50, pt: 10, pd: 0, m: "0 auto" }}
+          >
+            <ChangeProfilePic user={user} />
+          </Box>
+        ) : option == "changebgpic" ? (
+          <Box
+            component="main"
+            sx={{
+              flexGrow: 1,
+              pl: 0,
+              pr: 50,
+              pt: 10,
+              pd: 0,
+              m: "0 auto",
+              position: "relative",
+            }}
+          >
+            <ChangeBgPic />
+          </Box>
+        ) : (
+          <Box
+            component="main"
+            sx={{ flexGrow: 1, pl: 0, pr: 50, pt: 10, pd: 0, m: "2em auto" }}
+          >
+            <ChangeProfilePic />
+            <SwitchComponents option={option} />
+          </Box>
+        )}
       </Box>
-    </Box>
+    </div>
   );
 };
 

@@ -17,6 +17,7 @@ export const checkHttpStatus = async (response) => {
 
 export const requestApi = async (data) => {
   const token = window.localStorage.getItem("token") || null;
+  console.log(token)
   return await axios({
     url: data?.url,
     method: data?.method || "GET",
@@ -24,11 +25,12 @@ export const requestApi = async (data) => {
     headers: {
       Accept: data?.accept || "application/json",
       "Content-Type": data?.contentType || "application/json",
-      Authorization: token ? `Bearer ${token}` : undefined,
+      Authorization: token ? `Bearer ${token}` : null,
     },
   })
     .then(checkHttpStatus)
     .catch((e) => {
+      console.log("i am in the error")
       let { data, status } = e.response;
       if (status === 401) window.localStorage.removeItem("token");
       store.dispatch(toggleNotf(data || { message: e.message }));

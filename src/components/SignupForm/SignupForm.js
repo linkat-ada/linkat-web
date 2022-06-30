@@ -27,159 +27,178 @@ const animate = {
   },
 };
 
-const SignupForm = ({}) => {
+
+const SignupForm = ({ }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordConfirmation, setshowPasswordConfirmation] =
     useState(false);
-
-  const SignupSchema = Yup.object().shape({
-    username: Yup.string()
-      .min(3, "Too Short!")
-      .max(50, "Too Long!")
-      .required("Username name required"),
-    email: Yup.string()
-      .email("Email must be a valid email address")
-      .required("Email is required"),
-    password: Yup.string().required("Password is required"),
-    passwordConfirmation: Yup.string().required("Password is required"),
+  const [userData, setUserData] = useState({
+    username: "",
+    email: "",
+    password: "",
+    passwordConfirmation: ""
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const formik = useFormik({
-    initialValues: {
-      username: "",
-      email: "",
-      password: "",
-      passwordConfirmation: "",
-    },
-    validationSchema: SignupSchema,
-    onSubmit: async () => {
-      await dispatch(signupAction(formik.values))
-        .then(() => navigate("/signin", { replace: true }))
-        .catch((err) => console.error(err));
-    },
-  });
+  const handleSignup = async (e) => {
+    e.preventDefault();
+    await dispatch(signupAction(userData))
+      .then(() => navigate("/signin"))
+      .catch((e) => console.error(e));
+  };
 
-  const { errors, touched, handleSubmit, isSubmitting, getFieldProps } = formik;
+  const handleInputChange = (e) => {
+    userData[e.target.name] = e.target.value;
+  };
+
+  // const SignupSchema = Yup.object().shape({
+  //   username: Yup.string()
+  //     .min(3, "Too Short!")
+  //     .max(50, "Too Long!")
+  //     .required("Username name required"),
+  //   email: Yup.string()
+  //     .email("Email must be a valid email address")
+  //     .required("Email is required"),
+  //   password: Yup.string().required("Password is required"),
+  //   passwordConfirmation: Yup.string().required("Password is required"),
+  // });
+
+  // const formik = useFormik({
+  //   initialValues: {
+  //     username: "",
+  //     email: "",
+  //     password: "",
+  //     passwordConfirmation: "",
+  //   },
+  //   validationSchema: SignupSchema,
+  //   onSubmit: async () => {
+  //     await dispatch(signupAction(formik.values))
+  //       .then(() => navigate("/signin", { replace: true }))
+  //       .catch((err) => console.error(err));
+  //   },
+  // });
+
+  // const { errors, touched, handleSubmit, isSubmitting, getFieldProps } = formik;
 
   return (
-    <FormikProvider value={formik}>
-      <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
-        <Stack spacing={3}>
-          <Stack
-            component={motion.div}
-            initial={{ opacity: 0, y: 60 }}
-            animate={animate}
-            direction={{ xs: "column", sm: "row" }}
-            spacing={2}
-          >
-            <TextField
-              fullWidth
-              autoComplete="current-username"
-              type="string"
-              label="username"
-              {...getFieldProps("username")}
-              error={Boolean(touched.username && errors.username)}
-              helperText={touched.username && errors.username}
-            />
-          </Stack>
-
-          <Stack
-            spacing={3}
-            component={motion.div}
-            initial={{ opacity: 0, y: 40 }}
-            animate={animate}
-          >
-            <TextField
-              fullWidth
-              autoComplete="current-email"
-              type="email"
-              label="Email address"
-              {...getFieldProps("email")}
-              error={Boolean(touched.email && errors.email)}
-              helperText={touched.email && errors.email}
-            />
-
-            <TextField
-              fullWidth
-              autoComplete="current-password"
-              type={showPassword ? "text" : "password"}
-              label="Password"
-              {...getFieldProps("password")}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton
-                      edge="end"
-                      onClick={() => setShowPassword((prev) => !prev)}
-                    >
-                      <Icon
-                        icon={
-                          showPassword ? "eva:eye-fill" : "eva:eye-off-fill"
-                        }
-                      />
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
-              error={Boolean(touched.password && errors.password)}
-              helperText={touched.password && errors.password}
-            />
-
-            <TextField
-              fullWidth
-              autoComplete="current-passwordConfirmation"
-              type={showPasswordConfirmation ? "text" : "password"}
-              label="Password Confirmation"
-              {...getFieldProps("passwordConfirmation")}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton
-                      edge="end"
-                      onClick={() =>
-                        setshowPasswordConfirmation((prev) => !prev)
-                      }
-                    >
-                      <Icon
-                        icon={
-                          showPasswordConfirmation
-                            ? "eva:eye-fill"
-                            : "eva:eye-off-fill"
-                        }
-                      />
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
-              error={Boolean(
-                touched.passwordConfirmation && errors.passwordConfirmation
-              )}
-              helperText={
-                touched.passwordConfirmation && errors.passwordConfirmation
-              }
-            />
-          </Stack>
-
-          <Box
-            component={motion.div}
-            initial={{ opacity: 0, y: 20 }}
-            animate={animate}
-          >
-            <LoadingButton
-              fullWidth
-              size="large"
-              type="submit"
-              variant="contained"
-              loading={isSubmitting}
-            >
-              Sign up
-            </LoadingButton>
-          </Box>
+    <form autoComplete="off" noValidate onSubmit={handleSignup}>
+      <Stack spacing={3}>
+        <Stack
+          component={motion.div}
+          initial={{ opacity: 0, y: 60 }}
+          animate={animate}
+          direction={{ xs: "column", sm: "row" }}
+          spacing={2}
+        >
+          <TextField
+            fullWidth
+            autoComplete="current-username"
+            type="string"
+            label="Username"
+            name="username"
+            // {...getFieldProps("username")}
+            // error={Boolean(touched.username && errors.username)}
+            helperText={"Enter your username"}
+            onChange={handleInputChange}
+          />
         </Stack>
-      </Form>
-    </FormikProvider>
+
+        <Stack
+          spacing={3}
+          component={motion.div}
+          initial={{ opacity: 0, y: 40 }}
+          animate={animate}
+        >
+          <TextField
+            fullWidth
+            autoComplete="current-email"
+            type="email"
+            label="Email address"
+            name="email"
+            // {...getFieldProps("email")}
+            // error={Boolean(touched.email && errors.email)}
+            helperText={"Enter your email"}
+            onChange={handleInputChange}
+          />
+
+          <TextField
+            fullWidth
+            autoComplete="current-password"
+            type={showPassword ? "text" : "password"}
+            label="Password"
+            name="password"
+            // {...getFieldProps("password")}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    edge="end"
+                    onClick={() => setShowPassword((prev) => !prev)}
+                  >
+                    <Icon
+                      icon={
+                        showPassword ? "eva:eye-fill" : "eva:eye-off-fill"
+                      }
+                    />
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
+            helperText={"Enter your password"}
+            onChange={handleInputChange}
+          />
+
+          <TextField
+            fullWidth
+            autoComplete="current-passwordConfirmation"
+            type={showPasswordConfirmation ? "text" : "password"}
+            label="Password Confirmation"
+            name="passwordConfirmation"
+            // {...getFieldProps("passwordConfirmation")}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    edge="end"
+                    onClick={() =>
+                      setshowPasswordConfirmation((prev) => !prev)
+                    }
+                  >
+                    <Icon
+                      icon={
+                        showPasswordConfirmation
+                          ? "eva:eye-fill"
+                          : "eva:eye-off-fill"
+                      }
+                    />
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
+            helperText={"Enter the password confirmation"}
+            onChange={handleInputChange}
+          />
+        </Stack>
+
+        <Box
+          component={motion.div}
+          initial={{ opacity: 0, y: 20 }}
+          animate={animate}
+        >
+          <LoadingButton
+            fullWidth
+            size="large"
+            type="submit"
+            variant="contained"
+            loading={isSubmitting}
+          >
+            Sign up
+          </LoadingButton>
+        </Box>
+      </Stack>
+    </form>
   );
 };
 

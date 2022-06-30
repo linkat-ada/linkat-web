@@ -10,6 +10,8 @@ import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
 import EditIcon from "@mui/icons-material/Edit";
 import Typography from "@mui/material/Typography";
+import { useNavigate } from "react-router-dom";
+import { getUserLinksAction } from "../../redux/actions/links";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -21,58 +23,71 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 const Profile = () => {
   const dispatch = useDispatch();
-  const userInfo = useSelector((state) => state.auth);
+  const user = useSelector((state) => state?.auth?.data?.user);
+  const links = useSelector((state) => state?.links?.links)
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const getUserInfo =  async () => {
-        await dispatch(getUserInfoAction())
-    .then(() => console.log("getUserInfoAction", "sucess"))
-    .catch((err) => console.error(err));
-    }
+    const getUserInfo = async () => {
+      await dispatch(getUserInfoAction())
+        .then(() => console.log("getUserInfoAction", "sucess"))
+        .catch((err) => console.error(err));
+    };
+    const getUserLinks = async () => {
+      await dispatch(getUserLinksAction())
+        .then(() => console.log("getUserLinksAction", "sucess"))
+        .catch((err) => console.error(err));
+    };
     getUserInfo();
-    console.log("userInfo", userInfo)
+    getUserLinks();
+    console.log("userInfo", user);
   }, []);
 
   return (
     <div className="padding">
       <div className="col">
-        <div className="card">
-          <img
-            className="card-img-top"
-            src="https://i.imgur.com/K7A78We.jpg"
-            alt="Card image cap"
-          />
-          <div className="card-body little-profile text-center">
-            <div className="pro-img">
-              <img src="https://i.imgur.com/8RKXAIV.jpg" alt="user" />
+        {user ? (
+          <div className="card">
+            <img
+              className="card-img-top"
+              src={user?.usersprofile?.bgPic}
+              alt="Card image cap"
+            />
+            <div className="card-body little-profile text-center">
+              <div className="pro-img">
+                <img src={user?.usersprofile?.profilePic} alt="user" />
+              </div>
+              <h3 className="m-b-0">{user?.username}</h3>
+              <p>{user?.usersprofile?.bio}</p>
+              <Button
+                sx={{ textTransform: "capitalize" }}
+                color="inherit"
+                variant="contained"
+                endIcon={<EditIcon />}
+                onClick={() => navigate("/editprofile")}
+              >
+                edit profile
+              </Button>
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  width: "50%",
+                  p: "2em",
+                  margin: "auto",
+                }}
+              >
+                <Stack direction={"column"} spacing={2}>
+                  {links?.map((link, index) => (
+                    <Item key={index}>{link?.url}</Item>
+                  ))}
+                </Stack>
+              </Box>
             </div>
-            <h3 className="m-b-0">Brad Macullam</h3>
-            <p>{"bio"}</p>
-            <Button
-              sx={{ textTransform: "capitalize" }}
-              color="inherit"
-              variant="contained"
-              endIcon={<EditIcon />}
-            >
-              edit profile
-            </Button>
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                width: "50%",
-                p: "2em",
-                margin: "auto",
-              }}
-            >
-              <Stack direction={"column"} spacing={2}>
-                <Item>Item 1</Item>
-                <Item>Item 2</Item>
-                <Item>Item 3</Item>
-              </Stack>
-            </Box>
           </div>
-        </div>
+        ) : (
+          <p>Loading...</p>
+        )}
       </div>
     </div>
   );

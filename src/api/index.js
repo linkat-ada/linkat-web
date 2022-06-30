@@ -17,7 +17,9 @@ const API_URLS = (extraData) => ({
     UPDATE_PROFILEPIC: API_ROOT + "/users/updateprofilepic/",
     DELETE_USER: API_ROOT + "/users/",
   },
-  SUPER_ADMIN: {},
+  LINKS: {
+    GET_USERLINKS: API_ROOT + "/links/",
+  },
   SUBSCRIBERS : {
     GET_NEW_SUBSCRIBERS : API_ROOT + "/subscribers"
   }
