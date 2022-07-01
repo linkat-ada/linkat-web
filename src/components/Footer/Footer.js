@@ -7,8 +7,7 @@ import TextField from "@mui/material/TextField";
 import UnsubscribeIcon from "@mui/icons-material/Unsubscribe";
 import { useDispatch } from "react-redux";
 import { subscribeAction } from "../../redux/actions/subscribers";
-import Divider from "@mui/material/Divider"
-import { positions } from "@mui/system";
+
 import "./Footer.css";
 
 const Copyright = () => {
@@ -53,7 +52,7 @@ const Footer = ({ darlMode }) => {
         p: 1,
         color: "text.primary",
         bgcolor: "background.default",
-        border: 1,
+        borderTop: 1,
         flexGrow: 1, 
         borderColor: "text.primary",
       }}

@@ -25,7 +25,11 @@ import { useDispatch } from "react-redux";
 import EditIcon from "@mui/icons-material/Edit";
 
 const Dropdown = ({ eventButton }) => {
-  const isAuthenticated = useSelector((state) => state?.auth?.data?.isAuthenticated);
+  const isAuthenticated = useSelector((state) => state?.auth?.isAuthenticated);
+  const profilePic = useSelector(
+    (state) => state?.auth?.data?.user?.usersprofile?.profilePic
+  );
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -53,7 +57,7 @@ const Dropdown = ({ eventButton }) => {
             aria-haspopup="true"
             aria-expanded={open ? "true" : undefined}
           >
-            <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
+            <Avatar src={profilePic} sx={{ width: 40, height: 40 }} />
           </IconButton>
         </Tooltip>
       </Box>
@@ -100,7 +104,7 @@ const Dropdown = ({ eventButton }) => {
           }}
         >
           <MenuItem>
-            <Avatar /> Profile
+            <Avatar src={profilePic}/> Profile
           </MenuItem>
         </Link>
         {isAuthenticated && (
@@ -111,8 +115,8 @@ const Dropdown = ({ eventButton }) => {
               color: "inherit",
             }}
           >
-            <MenuItem >
-                <EditIcon sx={{pr:"6px"}}/> Edit profile
+            <MenuItem>
+              <EditIcon sx={{ pr: "6px" }} /> Edit profile
             </MenuItem>
           </Link>
         )}

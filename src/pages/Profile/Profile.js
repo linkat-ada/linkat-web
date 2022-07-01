@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
-import Image from "react-bootstrap/Image";
 import "./profile.css";
 import { getUserInfoAction } from "../../redux/actions/users";
 import { useDispatch, useSelector } from "react-redux";
@@ -9,9 +8,9 @@ import Stack from "@mui/material/Stack";
 import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
 import EditIcon from "@mui/icons-material/Edit";
-import Typography from "@mui/material/Typography";
 import { useNavigate } from "react-router-dom";
 import { getUserLinksAction } from "../../redux/actions/links";
+
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -24,7 +23,13 @@ const Item = styled(Paper)(({ theme }) => ({
 const Profile = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state?.auth?.data?.user);
-  const links = useSelector((state) => state?.links?.links)
+  const links = useSelector((state) => state?.links?.links);
+  console.log(links);
+  const [checked, setChecked] = useState(true);
+
+  const handleChange = (event) => {
+    setChecked(event.target.checked);
+  };
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -79,7 +84,15 @@ const Profile = () => {
               >
                 <Stack direction={"column"} spacing={2}>
                   {links?.map((link, index) => (
-                    <Item key={index}>{link?.url}</Item>
+                    <Item
+                      key={link?.id}
+                      sx={{
+                        display: "flex",
+                        flexDirection: "row",
+                        cursor: "pointer",
+                      }}
+                    >
+                    </Item>
                   ))}
                 </Stack>
               </Box>
