@@ -46,7 +46,7 @@ const Dropdown = ({ eventButton }) => {
       .catch((err) => console.error(err));
   };
   return (
-    <React.Fragment>
+    <div>
       <Box sx={{ display: "flex", alignItems: "center", textAlign: "center" }}>
         <Tooltip title="Account settings">
           <IconButton
@@ -147,7 +147,7 @@ const Dropdown = ({ eventButton }) => {
           {isAuthenticated ? "Logout" : "Sign in"}
         </MenuItem>
       </Menu>
-    </React.Fragment>
+    </div>
   );
 };
 

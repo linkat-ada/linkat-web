@@ -1,19 +1,54 @@
 import React from "react";
-import { Switch } from "@mui/material"
-import LinkIcon from "@mui/icons-material/Link";
+import { Avatar, Box, Switch, Typography, IconButton } from "@mui/material";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import LinkMenu from "../../components/LinkMenu/LinkMenu";
 
-const Link = ({ id, icon, name }) => {
+const Link = ({ icon, type, url, id }) => {
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   return (
-    <div key={id}>
-      <LinkIcon />
-      {link?.url}
-      <Switch
-        checked={checked}
-        onChange={handleChange}
-        inputProps={{ "aria-label": "controlled" }}
-        name={"" + link?.id}
+    <Box
+      sx={{
+        bgcolor: "background.default",
+      }}
+      display="flex"
+      flexDirection="row"
+      textAlign={"center"}
+      justifyContent="space-between"
+    >
+      <Avatar
+        sx={{
+          m: ".3em",
+        }}
+        src={icon}
       />
-    </div>
+      <Typography
+        sx={{
+          textAlignLast: "center",
+          textTransform: "capitalize",
+        }}
+        color="text.primary"
+      >
+        {type}
+      </Typography>
+      <IconButton aria-label="add to shopping cart" onClick={handleClick}>
+        <MoreVertIcon />
+      </IconButton>
+      <LinkMenu 
+        anchorEl={anchorEl} 
+        open={open} 
+        handleClose={handleClose}
+        linkId={id} />
+    </Box>
   );
 };
 

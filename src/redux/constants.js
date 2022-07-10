@@ -13,7 +13,12 @@ export const UPDATE_EMAIL = "UPDATE_EMAIL";
 export const UPDATE_PROFILEPIC = "UPDATE_PROFILEPIC";
 export const UPDATE_BGPIC = "UPDATE_BGPIC";
 export const DELETE_USER = "DELETE_USER";
+
+//LINK Constants
 export const GET_USERLINKS = "GET_USERLINKS";
+export const REORDER_LINKS = "REORDER_LINKS";
+export const EDIT_LINK = "EDIT_LINK"
+export const DELETE_LINK =  "DELETE_LINK"
 
 
 //SUBSCRIBES

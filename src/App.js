@@ -1,11 +1,10 @@
-import React from "react";
+import React,{ useEffect, useState } from "react";
 import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
 import Notification from "./components/Notifications/Notifications";
 import Home from "./pages/Home/Home";
 import Profile from "./pages/Profile/Profile";
 import EditProfile from "./pages/EditProfile/EditProfile";
-import { CssBaseline } from "@mui/material";
 import Signin from "./pages/Signin/Signin";
 import Signup from "./pages/Signup/Signup";
 import AboutUs from "./pages/AboutUs/AboutUs";
@@ -14,9 +13,13 @@ import People from "./pages/People/People";
 import { Route, Routes, BrowserRouter } from "react-router-dom";
 import { useTheme, ThemeProvider, createTheme } from "@mui/material/styles";
 import RequireAuth from "./RequiredAuth";
-import ChangeEmail from "./components/EditProfile/ChangeEmail";
+import SmoothScroll from "smooth-scroll";
 
 import { amber, deepOrange, grey } from "@mui/material/colors";
+export const scroll = new SmoothScroll('a[href*="#"]', {
+  speed: 1000,
+  speedAsDuration: true,
+});
 
 const App = () => {
   const navbarItems = ["home", "about-us", "contact-us", "people"];
@@ -64,6 +67,11 @@ const App = () => {
       }),
     [mode]
   );
+
+  
+    const [landingPageData, setLandingPageData] = useState({});
+
+
   return (
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>

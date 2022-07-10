@@ -17,7 +17,6 @@ export const checkHttpStatus = async (response) => {
 
 export const requestApi = async (data) => {
   const token = window.localStorage.getItem("token") || null;
-  console.log(token)
   return await axios({
     url: data?.url,
     method: data?.method || "GET",

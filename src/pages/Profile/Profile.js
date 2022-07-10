@@ -1,106 +1,146 @@
 import React, { useState, useEffect } from "react";
-import Box from "@mui/material/Box";
 import "./profile.css";
 import { getUserInfoAction } from "../../redux/actions/users";
 import { useDispatch, useSelector } from "react-redux";
-import Paper from "@mui/material/Paper";
-import Stack from "@mui/material/Stack";
-import { styled } from "@mui/material/styles";
-import Button from "@mui/material/Button";
-import EditIcon from "@mui/icons-material/Edit";
-import { useNavigate } from "react-router-dom";
+import { Typography, Box, Stack } from "@mui/material";
 import { getUserLinksAction } from "../../redux/actions/links";
+import { Avatar } from "@mui/material";
+import Link from "../../components/Link/Link";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import { reoderLinksAction } from "../../redux/actions/links";
 
-
-const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
-  textAlign: "center",
-  p: "2em",
-  color: theme.palette.text.secondary,
-}));
 const Profile = () => {
+  const [linksArr, setLinksArr] = useState([]);
   const dispatch = useDispatch();
-  const user = useSelector((state) => state?.auth?.data?.user);
-  const links = useSelector((state) => state?.links?.links);
-  console.log(links);
-  const [checked, setChecked] = useState(true);
+  let links = useSelector((state) => state?.links?.links);
 
-  const handleChange = (event) => {
-    setChecked(event.target.checked);
+  const swap = (i, j, arr) => {
+    const temp = arr[i];
+    arr[i] = arr[j];
+    arr[j] = temp;
   };
-  const navigate = useNavigate();
+
+  const handleOnDragEnd = (result) => {
+    if (!result.destination) return;
+    if (!Array.isArray(links) && links?.length == 0) return;
+    const order = links.map((link) => link?.order);
+    console.log(order);
+    swap(result.source.index-1, result.destination.index-1, order);
+    console.log(order);
+    reoderLinks(order);
+    console.log(result.source.index, result.destination.index);
+  };
+  const user = useSelector((state) => state?.auth?.data?.user);
+  const sortLinks = (links) => {
+    if (Array.isArray(links) && links?.length > 0)
+      return links.sort((a, b) => a.order - b.order);
+  };
+
+  const getUserInfo = async () => {
+    await dispatch(getUserInfoAction())
+      .then(() => console.log("getUserInfoAction", "sucess"))
+      .catch((err) => console.error(err));
+  };
+  const getUserLinks = async () => {
+    await dispatch(getUserLinksAction())
+      .then(() => console.log("getUserLinksAction", "sucess"))
+      .catch((err) => console.error(err));
+  };
+  const reoderLinks = async (order) => {
+    await dispatch(reoderLinksAction({ newOrder: order }))
+      .then(() => console.log("reoder links action", "sucess"))
+      .catch((err) => console.error(err));
+  };
 
   useEffect(() => {
-    const getUserInfo = async () => {
-      await dispatch(getUserInfoAction())
-        .then(() => console.log("getUserInfoAction", "sucess"))
-        .catch((err) => console.error(err));
-    };
-    const getUserLinks = async () => {
-      await dispatch(getUserLinksAction())
-        .then(() => console.log("getUserLinksAction", "sucess"))
-        .catch((err) => console.error(err));
-    };
     getUserInfo();
     getUserLinks();
-    console.log("userInfo", user);
   }, []);
 
+  console.log(links);
+
   return (
-    <div className="padding">
-      <div className="col">
-        {user ? (
-          <div className="card">
-            <img
-              className="card-img-top"
-              src={user?.usersprofile?.bgPic}
-              alt="Card image cap"
-            />
-            <div className="card-body little-profile text-center">
-              <div className="pro-img">
-                <img src={user?.usersprofile?.profilePic} alt="user" />
-              </div>
-              <h3 className="m-b-0">{user?.username}</h3>
-              <p>{user?.usersprofile?.bio}</p>
-              <Button
-                sx={{ textTransform: "capitalize" }}
-                color="inherit"
-                variant="contained"
-                endIcon={<EditIcon />}
-                onClick={() => navigate("/editprofile")}
-              >
-                edit profile
-              </Button>
-              <Box
-                sx={{
-                  display: "flex",
-                  flexDirection: "column",
-                  width: "50%",
-                  p: "2em",
-                  margin: "auto",
-                }}
-              >
-                <Stack direction={"column"} spacing={2}>
-                  {links?.map((link, index) => (
-                    <Item
-                      key={link?.id}
-                      sx={{
-                        display: "flex",
-                        flexDirection: "row",
-                        cursor: "pointer",
-                      }}
-                    >
-                    </Item>
-                  ))}
+    <div className="profile">
+      <div className="container">
+        <img className="bgpic" src={user?.usersprofile?.bgPic} />
+        <Avatar
+          sx={{
+            m: "0 auto",
+            mt: "-2em",
+            width: "6em",
+            height: "6em",
+            mb: "4px",
+          }}
+          src={user?.usersprofile?.profilePic}
+        />
+        <div className="profile-name-bio">
+          <Typography variant="h4" component="h2" color="dark">
+            {user?.username || "linkat"}
+          </Typography>
+          {user?.usersprofile.nickname && (
+            <Typography variant="h6" component="h2" color="dark">
+              {user?.usersprofile.nickname}
+            </Typography>
+          )}
+          {user?.usersprofile.bio && (
+            <Typography
+              sx={{
+                textAlignLast: "center",
+                textTransform: "capitalize",
+                whiteSpace: "wrap",
+              }}
+              variant="p"
+              component="p"
+              color="dark"
+              p="1em 10em 2em 10em"
+              size="small"
+            >
+              {user?.usersprofile.bio}
+            </Typography>
+          )}
+        </div>
+        <Box>
+          <DragDropContext onDragEnd={handleOnDragEnd}>
+            <Droppable droppableId="characters">
+              {(provided) => (
+                <Stack
+                  ref={provided.innerRef}
+                  {...provided.droppableProps}
+                  className="characters"
+                  sx={{ m: "0 4em" }}
+                  spacing={2}
+                  elevation={3}
+                >
+                  {links &&
+                    sortLinks(links)?.map((links, i) => (
+                      <Draggable
+                        key={links?.id}
+                        draggableId={String(links?.order)}
+                        index={links?.order}
+                      >
+                        {(provided) => (
+                          <div
+                            ref={provided.innerRef}
+                            {...provided.draggableProps}
+                            {...provided.dragHandleProps}
+                          >
+                            <Link
+                              key={links?.id}
+                              icon={links?.linktype?.icon}
+                              type={links?.linktype?.type}
+                              url={links?.url}
+                              id={links?.id}
+                            />
+                          </div>
+                        )}
+                      </Draggable>
+                    ))}
+                  {provided.placeholder}
                 </Stack>
-              </Box>
-            </div>
-          </div>
-        ) : (
-          <p>Loading...</p>
-        )}
+              )}
+            </Droppable>
+          </DragDropContext>
+        </Box>
       </div>
     </div>
   );

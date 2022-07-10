@@ -58,9 +58,9 @@ const Navbar = ({ head, items: pages, exHead: settings, ColorModeContext, theme 
   };
 
   return (
-    <AppBar sx={{ zIndex:"99" }} position="static" color="inherit">
-      <Container maxWidth="xl">
-        <Toolbar disableGutters>
+    <AppBar sx={{ zIndex:"99", pl:"2.3em",pr:"2em" }} position="static" color="inherit">
+      <Container maxWidth="xl" >
+        <Toolbar >
           <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton

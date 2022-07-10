@@ -144,6 +144,7 @@ import {
           ...state,
           isAuthenticated: false,
           data:{
+            ...state.data,
           token: null,
           user: null,
           }
