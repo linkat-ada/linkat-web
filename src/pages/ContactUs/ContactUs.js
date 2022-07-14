@@ -1,166 +1,140 @@
-import { useState } from 'react'
-import emailjs from 'emailjs-com'
+import { useState } from "react";
+import emailjs from "emailjs-com";
 import "./ContactUs.css";
+import { TextField, Typography, Grid, Card, CardContent, Button, Box } from "@mui/material";
+import { toggleNotf } from "../../redux/actions/notifications";
+import { useDispatch } from "react-redux";
 
-const initialState = {
-  name: '',
-  email: '',
-  message: '',
-}
-
-const ContactUs = (props) => {
-  const [{ name, email, message }, setState] = useState(initialState)
-
-  const handleChange = (e) => {
-    const { name, value } = e.target
-    setState((prevState) => ({ ...prevState, [name]: value }))
+const ContactUs = ({}) => {
+  const dispatch = useDispatch();
+  const [contactData, setContactData] = useState({
+    first_name: "",
+    last_name: "",
+    message: "",
+    tel:"",
+    email:""
+  });
+  const handleOnChange = (e) => {
+    contactData[e.target.name] = e.target.value;
   }
-  const clearState = () => setState({ ...initialState })
+  const sendEmail = async (e) => {
+    try {
+      e.preventDefault();
+      await emailjs.send("service_h6mkufm", "template_2jmrx1g", contactData, "Xt39ofL1DUR6Bvyvl")
+      .then(res => {
+        console.log(res)
+        dispatch(toggleNotf({success: true, messages:"successfully sent it"}))
+      })
+      .catch(err => dispatch(toggleNotf({success: false, messages: "failed to send it"})))
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    console.log(name, email, message)
-    emailjs
-      .sendForm(
-        'YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', e.target, 'YOUR_USER_ID'
-      )
-      .then(
-        (result) => {
-          console.log(result.text)
-          clearState()
-        },
-        (error) => {
-          console.log(error.text)
-        }
-      )
+    } catch(err){
+      console.error(err);
+      throw new Error(err);
+    }
   }
+
   return (
-    <div>
-      <div id='contact'>
-        <div className='container'>
-          <div className='col-md-8'>
-            <div className='row'>
-              <div className='section-title'>
-                <h2>Get In Touch</h2>
-                <p>
-                  Please fill out the form below to send us an email and we will
-                  get back to you as soon as possible.
-                </p>
-              </div>
-              <form name='sentMessage' validate onSubmit={handleSubmit}>
-                <div className='row'>
-                  <div className='col-md-6'>
-                    <div className='form-group'>
-                      <input
-                        type='text'
-                        id='name'
-                        name='name'
-                        className='form-control'
-                        placeholder='Name'
-                        required
-                        onChange={handleChange}
-                      />
-                      <p className='help-block text-danger'></p>
-                    </div>
-                  </div>
-                  <div className='col-md-6'>
-                    <div className='form-group'>
-                      <input
-                        type='email'
-                        id='email'
-                        name='email'
-                        className='form-control'
-                        placeholder='Email'
-                        required
-                        onChange={handleChange}
-                      />
-                      <p className='help-block text-danger'></p>
-                    </div>
-                  </div>
-                </div>
-                <div className='form-group'>
-                  <textarea
-                    name='message'
-                    id='message'
-                    className='form-control'
-                    rows='4'
-                    placeholder='Message'
+    <Box sx={{
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "center",
+      textAlign: "center",
+      height: "100vh"
+    }}>
+      <Typography color="text.primary" variant="h2" component="h3">
+        contact us
+      </Typography>
+      <Typography color="text.primary" variant="p">
+        We'd love to hear from you!
+      </Typography>
+      <Grid sx={{
+        m:"5em"
+      }}>
+        <Card style={{ maxHeight:"100vh" ,maxWidth: 550, padding: "20px 5px 5px 5px", margin: "0 auto" }}>
+          <CardContent>
+            <form>
+              <Grid container spacing={1}>
+                <Grid xs={12} sm={6} item>
+                  <TextField
+                    placeholder="Enter first name"
+                    label="First Name"
+                    variant="outlined"
+                    fullWidth
+                    required  
+                    name="first_name"
+                    onChange={handleOnChange}
+                  />
+                </Grid>
+                <Grid xs={12} sm={6} item>
+                  <TextField
+                    placeholder="Enter last name"
+                    label="Last Name"
+                    variant="outlined"
+                    fullWidth
                     required
-                    onChange={handleChange}
-                  ></textarea>
-                  <p className='help-block text-danger'></p>
-                </div>
-                <div id='success'></div>
-                <button type='submit' className='btn btn-custom btn-lg'>
-                  Send Message
-                </button>
-              </form>
-            </div>
-          </div>
-          <div className='col-md-3 col-md-offset-1 contact-info'>
-            <div className='contact-item'>
-              <h3>Contact Info</h3>
-              <p>
-                <span>
-                  <i className='fa fa-map-marker'></i> Address
-                </span>
-                {props.data ? props.data.address : 'loading'}
-              </p>
-            </div>
-            <div className='contact-item'>
-              <p>
-                <span>
-                  <i className='fa fa-phone'></i> Phone
-                </span>{' '}
-                {props.data ? props.data.phone : 'loading'}
-              </p>
-            </div>
-            <div className='contact-item'>
-              <p>
-                <span>
-                  <i className='fa fa-envelope-o'></i> Email
-                </span>{' '}
-                {props.data ? props.data.email : 'loading'}
-              </p>
-            </div>
-          </div>
-          <div className='col-md-12'>
-            <div className='row'>
-              <div className='social'>
-                <ul>
-                  <li>
-                    <a href={props.data ? props.data.facebook : '/'}>
-                      <i className='fa fa-facebook'></i>
-                    </a>
-                  </li>
-                  <li>
-                    <a href={props.data ? props.data.twitter : '/'}>
-                      <i className='fa fa-twitter'></i>
-                    </a>
-                  </li>
-                  <li>
-                    <a href={props.data ? props.data.youtube : '/'}>
-                      <i className='fa fa-youtube'></i>
-                    </a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div id='footer'>
-        <div className='container text-center'>
-          <p>
-            &copy; 2020 Issaaf Kattan React Land Page Template. Design by{' '}
-            <a href='http://www.templatewire.com' rel='nofollow'>
-              TemplateWire
-            </a>
-          </p>
-        </div>
-      </div>
-    </div>
-  )
-}
+                    name = "last_name"
+                    onChange={handleOnChange}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    type="email"
+                    placeholder="Enter email"
+                    label="Email"
+                    variant="outlined"
+                    fullWidth
+                    required
+                    name="email"
+                    onChange={handleOnChange}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    type="text"
+                    placeholder="Enter phone number"
+                    label="Phone"
+                    aria-label="text"
+                    variant="outlined"
+                    fullWidth
+                    required
+                    name="tel"
+                    onChange={handleOnChange}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    label="Message"
+                    multiline
+                    rows={4}
+                    placeholder="Type your message here"
+                    variant="outlined"
+                    fullWidth
+                    required
+                    name="message"
+                    onChange={handleOnChange}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    color="primary"
+                    fullWidth
+                    onClick={sendEmail}
+                    sx={{
+                      textTransform: "capitalize"
+                    }}
+                  >
+                    Send 
+                  </Button>
+                </Grid>
+              </Grid>
+            </form>
+          </CardContent>
+        </Card>
+      </Grid>
+    </Box>
+  );
+};
 
 export default ContactUs;

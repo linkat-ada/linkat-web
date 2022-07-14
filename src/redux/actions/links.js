@@ -3,6 +3,8 @@ import {
   REORDER_LINKS,
   EDIT_LINK,
   DELETE_LINK,
+  GET_LINK_TYPES,
+  ADD_NEW_LINK
 } from "../constants";
 import API_URLS from "../../api";
 import { requestApi } from "../../helper";
@@ -54,3 +56,26 @@ export const deleteLinkAction = (userData) => async (dispatch) => {
     dispatch({ type: DELETE_LINK, payload: res?.data });
   });
 };
+
+export const getLinkTypesAction = (userData) => async (dispatch) => {
+  let data = {
+    url: API_URLS().LINKS.GET_LINK_TYPES,
+    method: "GET",
+  };
+  await requestApi(data).then((res) => {
+    dispatch({ type: GET_LINK_TYPES, payload: res?.data });
+  });
+};
+
+export const addNewLinkAction = (userData) => async (dispatch) => {
+  let data = {
+    url: API_URLS().LINKS.ADD_NEW_LINK,
+    method: "POST",
+    body: {
+      ...userData
+    },
+  };
+  await requestApi(data).then((res) => {
+    dispatch({ type: ADD_NEW_LINK, payload: res?.data });
+  });
+} 

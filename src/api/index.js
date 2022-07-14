@@ -21,7 +21,10 @@ const API_URLS = (extraData) => ({
     GET_USERLINKS: API_ROOT + "/links/",
     REORDER_LINKS : API_ROOT + "/links/reorder",
     EDIT_LINK: API_ROOT+ "/links/",
-    DELETE_LINK: API_ROOT+ "/links/"
+    DELETE_LINK: API_ROOT+ "/links/",
+    GET_LINK_TYPES: API_ROOT+ "/links/linkTypes/",
+    ADD_NEW_LINK: API_ROOT+ "/links/",
+    GET_QR: API_ROOT+ "/qrcodes/",
   },
   SUBSCRIBERS : {
     GET_NEW_SUBSCRIBERS : API_ROOT + "/subscribers"

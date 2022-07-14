@@ -11,7 +11,7 @@ import {
 import { useDispatch } from "react-redux";
 import { editLinkAction } from "../../redux/actions/links";
 
-const EditModalDialog = ({ open, handleClose, linkId }) => {
+const EditModalDialog = ({ open, handleClose, linkId, handleCloseMenu }) => {
   const dispatch = useDispatch();
   const [linkData, setLinkData] = useState({
     url: "",
@@ -25,10 +25,12 @@ const EditModalDialog = ({ open, handleClose, linkId }) => {
       .then((res) => {
         console.log("editLinkAction", "success");
         handleClose();
+        handleCloseMenu();
       })
       .catch((err) => {
         console.error("editLinkAction", err);
         handleClose();
+        handleCloseMenu();
       });
   };
   return (
@@ -63,11 +65,14 @@ const EditModalDialog = ({ open, handleClose, linkId }) => {
         />
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleClose}>
+        <Button onClick={() => {
+          handleClose()
+          handleCloseMenu()
+        }}>
           Cancel
         </Button>
         <Button onClick={() => handleOnEditLink({ ...linkData, id: linkId })}>
-          Subscribe
+          Edit
         </Button>
       </DialogActions>
     </Dialog>

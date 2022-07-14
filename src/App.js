@@ -10,7 +10,7 @@ import Signup from "./pages/Signup/Signup";
 import AboutUs from "./pages/AboutUs/AboutUs";
 import ContactUs from "./pages/ContactUs/ContactUs";
 import People from "./pages/People/People";
-import { Route, Routes, BrowserRouter } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import { useTheme, ThemeProvider, createTheme } from "@mui/material/styles";
 import RequireAuth from "./RequiredAuth";
 import SmoothScroll from "smooth-scroll";
@@ -26,6 +26,7 @@ const App = () => {
   const ex = ["signin", "signup"];
   const ColorModeContext = React.createContext({ toggleColorMode: () => {} });
   const [mode, setMode] = React.useState("light");
+  const [landingPageData, setLandingPageData] = useState({});
   const colorMode = React.useMemo(
     () => ({
       toggleColorMode: () => {
@@ -67,11 +68,7 @@ const App = () => {
       }),
     [mode]
   );
-
-  
-    const [landingPageData, setLandingPageData] = useState({});
-
-
+    
   return (
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>

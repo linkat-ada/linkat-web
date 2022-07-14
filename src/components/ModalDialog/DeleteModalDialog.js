@@ -11,7 +11,7 @@ import {
 import { useDispatch } from "react-redux";
 import { deleteLinkAction } from "../../redux/actions/links";
 
-const DeleteModalDialog = ({ open, handleClose, linkId }) => {
+const DeleteModalDialog = ({ open, handleClose, linkId, handleCloseMenu }) => {
   const dispatch = useDispatch();
   
   const handleOnDeletLink = async (data) => {
@@ -19,10 +19,12 @@ const DeleteModalDialog = ({ open, handleClose, linkId }) => {
       .then(() => {
         console.log("deleteLinkAction", "success");
         handleClose();
+        handleCloseMenu();
       })
       .catch((err) => {
         console.error("deleteLinkAction", err);
         handleClose();
+        handleCloseMenu();
       });
   };
   return (
@@ -34,7 +36,10 @@ const DeleteModalDialog = ({ open, handleClose, linkId }) => {
         </DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleClose}>
+        <Button onClick={() => {
+          handleCloseMenu()
+          handleClose()
+        }}>
           Cancel
         </Button>
         <Button onClick={() => handleOnDeletLink({ id: linkId })}>

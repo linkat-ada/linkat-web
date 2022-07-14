@@ -17,8 +17,10 @@ export const DELETE_USER = "DELETE_USER";
 //LINK Constants
 export const GET_USERLINKS = "GET_USERLINKS";
 export const REORDER_LINKS = "REORDER_LINKS";
-export const EDIT_LINK = "EDIT_LINK"
-export const DELETE_LINK =  "DELETE_LINK"
+export const EDIT_LINK = "EDIT_LINK";
+export const DELETE_LINK =  "DELETE_LINK";
+export const GET_LINK_TYPES = "GET_LINK_TYPES";
+export const ADD_NEW_LINK = "ADD_NEW_LINK";
 
 
 //SUBSCRIBES
