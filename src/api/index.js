@@ -26,6 +26,10 @@ const API_URLS = (extraData) => ({
     ADD_NEW_LINK: API_ROOT+ "/links/",
     GET_QR: API_ROOT+ "/qrcodes/",
   },
+  QRCODE: {
+    CREATE_QR_CODE: API_ROOT + "/qrcodes/",
+    CREATE_QR_FOR_LINKS: API_ROOT + "/qrcodes/qrlinks"
+  },
   SUBSCRIBERS : {
     GET_NEW_SUBSCRIBERS : API_ROOT + "/subscribers"
   }

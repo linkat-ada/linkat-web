@@ -2,12 +2,23 @@ import React, { useState } from "react";
 import { Menu, MenuItem } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import LinkIcon from '@mui/icons-material/Link';
 import EditModalDialog from "../ModalDialog/EditModalDialog";
 import DeleteModalDialog from "../ModalDialog/DeleteModalDialog";
+import ShowLinkModalDialog from "../ModalDialog/ShowLinkModalDialog"
 
 const LinkMenu = ({ anchorEl, open, handleClose, linkId }) => {
   const [editDialog, setEditDialog] = useState(false);
   const [deleteDialog, setDeleteDialog] = useState(false);
+  const [showLinkDialog, setShowLinkDialog] = useState(false);
+
+  const handleOnOpenShowLink = () => {
+    setShowLinkDialog(true);
+  }
+
+  const handleOnCloseShowLink = () => {
+    setShowLinkDialog(false);
+  }
 
   const handleOnOpenEditDialog = () => {
     setEditDialog(true);
@@ -34,6 +45,15 @@ const LinkMenu = ({ anchorEl, open, handleClose, linkId }) => {
         "aria-labelledby": "basic-button",
       }}
     >
+      <MenuItem onClick={handleOnOpenShowLink}>
+        <LinkIcon
+          sx={{
+            pr: ".2em",
+          }}
+        />
+        open
+      </MenuItem>
+
       <MenuItem onClick={handleOnOpenEditDialog}>
         <EditIcon
           sx={{
@@ -49,7 +69,7 @@ const LinkMenu = ({ anchorEl, open, handleClose, linkId }) => {
           }}
         />
         Delete
-      </MenuItem>
+      </MenuItem>   
 
       <EditModalDialog
         open={editDialog}
@@ -60,6 +80,13 @@ const LinkMenu = ({ anchorEl, open, handleClose, linkId }) => {
       <DeleteModalDialog
         open={deleteDialog}
         handleClose={handleOnCloseDeleteDialog}
+        linkId={linkId}
+        handleCloseMenu={handleClose}
+      />
+
+      <ShowLinkModalDialog
+        open={showLinkDialog}
+        handleClose={handleOnCloseShowLink}
         linkId={linkId}
         handleCloseMenu={handleClose}
       />

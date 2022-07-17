@@ -1,19 +1,37 @@
-import { GET_QR } from "../constants";
+import { CREATE_QR_CODE, CREATE_QR_FOR_LINKS } from "../constants";
+import API_URLS from "../../api";
+import { requestApi } from "../../helper";
 
-export const getQRAction = (userData) => async (dispatch) => {
+export const createQRAction = () => async (dispatch) => {
   let data = {
-    url: API_URLS().SUBSCRIBERS.GET_NEW_SUBSCRIBERS,
+    url: API_URLS().QRCODE.CREATE_QR_CODE,
     method: "POST",
     body: {
-      ...userData,
     },
   };
   await requestApi(data)
     .then((res) => {
-      dispatch({ type: GET_NEW_SUBSCRIBERS, payload: res?.data });
+      dispatch({ type: CREATE_QR_CODE, payload: res?.data });
     })
     .catch((e) => {
       console.error(e);
-      dispatch({ type: SUBSCRIBED_FAILED });
     });
 };
+
+
+export const createQRForLinksAction = (userData) => async (dispatch ) => {
+  let data = {
+    url: API_URLS().QRCODE.CREATE_QR_FOR_LINKS,
+    method: "POST",
+    body:{
+      ...userData
+    }
+  }
+  await requestApi(data)
+    .then((res) => {
+      dispatch({ type: CREATE_QR_FOR_LINKS, payload: res?.data });
+    })
+    .catch((e) => {
+      console.error(e);
+    });
+} 
