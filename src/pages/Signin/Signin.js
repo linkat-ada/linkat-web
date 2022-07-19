@@ -76,7 +76,7 @@ const Signin = ({ setAuth }) => {
           >
             Don’t have an account?{" "}
             <Link variant="subtitle2" component={RouterLink} to="/signup">
-              Sign in
+              Sign Up
             </Link>
           </Typography>
         </ContentStyle>
