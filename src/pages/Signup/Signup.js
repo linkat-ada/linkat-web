@@ -60,7 +60,7 @@ const Signup = ({ setAuth }) => {
 
           <Divider sx={{ my: 3 }} component={motion.div} {...fadeInUp}>
             <Typography variant="body2" sx={{ color: "text.secondary" }}>
-              OR
+            Sign Up
             </Typography>
           </Divider>
 

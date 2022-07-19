@@ -61,7 +61,7 @@ const Signin = ({ setAuth }) => {
 
           <Divider sx={{ my: 3 }} component={motion.div} {...fadeInUp}>
             <Typography variant="body2" sx={{ color: "text.secondary" }}>
-              OR
+            Sign In
             </Typography>
           </Divider>
 
@@ -76,7 +76,7 @@ const Signin = ({ setAuth }) => {
           >
             Don’t have an account?{" "}
             <Link variant="subtitle2" component={RouterLink} to="/signup">
-              Sign up
+              Sign in
             </Link>
           </Typography>
         </ContentStyle>
