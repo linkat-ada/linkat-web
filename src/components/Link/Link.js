@@ -1,7 +1,7 @@
 import React from "react";
 import { Avatar, Box, Switch, Typography, IconButton } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import LinkMenu from "../../components/LinkMenu/LinkMenu";
+// import LinkMenu from "../../components/LinkMenu/LinkMenu";
 
 const Link = ({ icon, type, url, link, id }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -44,12 +44,12 @@ const Link = ({ icon, type, url, link, id }) => {
       <IconButton aria-label="add to shopping cart" onClick={handleClick}>
         <MoreVertIcon />
       </IconButton>
-      <LinkMenu 
+      {/* <LinkMenu 
         anchorEl={anchorEl} 
         open={open} 
         handleClose={handleClose}
         link={link}
-        linkId={id} />
+        linkId={id} /> */}
     </Box>
   );
 };
