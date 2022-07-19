@@ -33,4 +33,6 @@ export const TOGGLE_NOTIFICATION_OFF = "TOGGLE_NOTIFICATION_OFF";
 
 // QR 
 export const CREATE_QR_CODE = "CREATE_QR_CODE";
-export const CREATE_QR_FOR_LINKS = "CREATE_QR_FOR_LINKS"
+export const CREATE_QR_FOR_LINKS = "CREATE_QR_FOR_LINKS";
+export const SCAN_QR = "SCAN_QR";
+export const NOT_FOUND = "NOT_FOUND";

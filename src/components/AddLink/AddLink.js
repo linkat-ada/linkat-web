@@ -1,20 +1,12 @@
-import React, { useState } from "react";
+import React, {useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import { Box, Typography } from "@mui/material";
 import AddModalDialog from "../ModalDialog/AddModalDialog";
-import { useDispatch, useSelector } from "react-redux";
-import { getLinkTypesAction } from "../../redux/actions/links";
+import { useSelector } from "react-redux";
 
-const AddLink = ({}) => {
+const AddLink = () => {
+  const linkTypes = useSelector((state) => state?.links.linkTypes);
   const [openAddDialog, setOpenAddDialog] = useState(false);
-  const dispatch = useDispatch();
-  const getLinkTypes = async () => {
-    await dispatch(getLinkTypesAction()).then(()=>{
-      console.log("getLinkType", "success")
-    }).catch((err)=> {
-      console.error("getLinkType", err)
-    })
-  }
   return (
     <Box
       sx={{
@@ -35,8 +27,8 @@ const AddLink = ({}) => {
           p: "0 2em",
         }}
         color="text.primary"
+        disabled={!linkTypes}
         onClick={()=> {
-          getLinkTypes();
           setOpenAddDialog(true)
         }}
       >

@@ -7,13 +7,18 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
+  InputLabel,
+  MenuItem,
+  FormControl,
+  Select,
 } from "@mui/material";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { editLinkAction } from "../../redux/actions/links";
 
 const EditModalDialog = ({ open, handleClose, linkId, handleCloseMenu }) => {
   const dispatch = useDispatch();
-  const [linkData, setLinkData] = useState({
+  const linkTypes = useSelector((state) => state?.links.linkTypes);
+  const [linkData, ] = useState({
     url: "",
     linkTypeId: "",
   });
@@ -41,17 +46,29 @@ const EditModalDialog = ({ open, handleClose, linkId, handleCloseMenu }) => {
           To Edit this Link, please enter your link address here. it will update
           automatically.
         </DialogContentText>
-        <TextField
-          autoFocus
-          margin="dense"
-          id="name"
-          label="link type"
-          type="text"
-          fullWidth
-          variant="standard"
-          name="linkTypeId"
-          onChange={handleInputChange}
-        />
+        <FormControl fullWidth>
+          <InputLabel id="demo-simple-select-label">Link type</InputLabel>
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            label="link Types"
+            name="linkTypeId"
+            defaultValue={""}
+            value={
+              linkTypes
+                ? linkTypes?.find((linkType) => linkType.id === linkData.linkTypeId)
+                    ?.type
+                : null
+            }
+            onChange={handleInputChange}
+          >
+            {linkTypes?.map((linkType, index) => (
+              <MenuItem key={index} value={linkType?.id}>
+                {linkType?.type}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
         <TextField
           autoFocus
           margin="dense"
@@ -65,13 +82,27 @@ const EditModalDialog = ({ open, handleClose, linkId, handleCloseMenu }) => {
         />
       </DialogContent>
       <DialogActions>
-        <Button onClick={() => {
-          handleClose()
-          handleCloseMenu()
-        }}>
+        <Button
+          sx={{
+            ":hover": {
+              color: "Red",
+            },
+          }}
+          onClick={() => {
+            handleClose();
+            handleCloseMenu();
+          }}
+        >
           Cancel
         </Button>
-        <Button onClick={() => handleOnEditLink({ ...linkData, id: linkId })}>
+        <Button
+          sx={{
+            ":hover": {
+              color: "#4993BC",
+            },
+          }}
+          onClick={() => handleOnEditLink({ ...linkData, id: linkId })}
+        >
           Edit
         </Button>
       </DialogActions>

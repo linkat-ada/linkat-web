@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Button from "@mui/material/Button";
 import {
   TextField,
@@ -18,24 +18,21 @@ import { addNewLinkAction } from "../../redux/actions/links";
 const AddModalDialog = ({ open, handleOnClose }) => {
   const dispatch = useDispatch();
   const linkTypes = useSelector((state) => state?.links.linkTypes);
-  const [linkTypeSelctor, setlinkTypeSelctor] = useState('');
   const [link, setLink] = useState({
     linkTypeId: "",
-    url:""
+    url: "",
   });
-
   const handleChange = (event) => {
-    setlinkTypeSelctor(event.target.value)
-    link[event.target.name] = event.target.value
-    console.log(event.target.value)
+    link[event.target.name] = event.target.value;
+    console.log(link);
   };
-
 
   const addNewLink = async () => {
     await dispatch(addNewLinkAction(link))
-    .then(()=> console.log("ADD_new_link", "sucess"))
-    .catch((err)=> console.log("ADD_new_link", err))
-  }
+      .then(() => console.log("ADD_new_link", "sucess"))
+      .catch((err) => console.log("ADD_new_link", err));
+      handleOnClose(false);
+  };
 
   return (
     <Dialog open={open} onClose={() => handleOnClose(false)}>
@@ -50,14 +47,19 @@ const AddModalDialog = ({ open, handleOnClose }) => {
           <Select
             labelId="demo-simple-select-label"
             id="demo-simple-select"
-            value={linkTypeSelctor}
             label="link Types"
             name="linkTypeId"
+            defaultValue={""}
+            value={
+              linkTypes
+                ? linkTypes.find((linkType) => linkType.id === link.linkTypeId)
+                    ?.type
+                : null
+            }
             onChange={handleChange}
           >
-            {linkTypes?.map((linkType) => (
-              <MenuItem key={linkType?.id} 
-                value={linkType?.id}>
+            {linkTypes?.map((linkType, index) => (
+              <MenuItem key={index} value={linkType?.id}>
                 {linkType?.type}
               </MenuItem>
             ))}
@@ -76,7 +78,17 @@ const AddModalDialog = ({ open, handleOnClose }) => {
         />
       </DialogContent>
       <DialogActions>
-        <Button onClick={() => handleOnClose(false)}>Cancel</Button>
+        <Button
+          onClick={() => {
+            setLink({
+              linkTypeId: "",
+              url: "",
+            });
+            handleOnClose(false);
+          }}
+        >
+          Cancel
+        </Button>
         <Button onClick={addNewLink}>Add</Button>
       </DialogActions>
     </Dialog>

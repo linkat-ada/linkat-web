@@ -3,7 +3,6 @@ import { Link as RouterLink } from "react-router-dom";
 import { Container, Typography, Link, Box, Divider } from "@mui/material";
 import styled from "@emotion/styled";
 import LoginForm from "../../components/LoginForm/LoginForm";
-import SocialAuth from "../../components/SocialAuth/SocialAuth";
 import Logo from "../../components/Logo/Logo";
 import { motion } from "framer-motion";
 
@@ -58,9 +57,7 @@ const Signin = ({ setAuth }) => {
             </Typography>
           </HeadingStyle>
 
-          <Box component={motion.div} {...fadeInUp}>
-            <SocialAuth />
-          </Box>
+          <Box component={motion.div} {...fadeInUp}></Box>
 
           <Divider sx={{ my: 3 }} component={motion.div} {...fadeInUp}>
             <Typography variant="body2" sx={{ color: "text.secondary" }}>

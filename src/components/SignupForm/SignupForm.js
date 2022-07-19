@@ -1,8 +1,6 @@
-import * as Yup from "yup";
 import { useState } from "react";
-import { useFormik, Form, FormikProvider } from "formik";
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { signupAction } from "../../redux/actions/users";
 import {
   Stack,
@@ -15,7 +13,6 @@ import { LoadingButton } from "@mui/lab";
 import { Icon } from "@iconify/react";
 import { motion } from "framer-motion";
 
-/////////////////////////////////////////////////////////////
 let easing = [0.6, -0.05, 0.01, 0.99];
 const animate = {
   opacity: 1,
@@ -28,19 +25,19 @@ const animate = {
 };
 
 
-const SignupForm = ({ }) => {
+const SignupForm = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordConfirmation, setshowPasswordConfirmation] =
     useState(false);
-  const [userData, setUserData] = useState({
+  const [userData, ] = useState({
     username: "",
     email: "",
     password: "",
     passwordConfirmation: ""
   });
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitting, ] = useState(false);
 
   const handleSignup = async (e) => {
     e.preventDefault();
@@ -52,35 +49,6 @@ const SignupForm = ({ }) => {
   const handleInputChange = (e) => {
     userData[e.target.name] = e.target.value;
   };
-
-  // const SignupSchema = Yup.object().shape({
-  //   username: Yup.string()
-  //     .min(3, "Too Short!")
-  //     .max(50, "Too Long!")
-  //     .required("Username name required"),
-  //   email: Yup.string()
-  //     .email("Email must be a valid email address")
-  //     .required("Email is required"),
-  //   password: Yup.string().required("Password is required"),
-  //   passwordConfirmation: Yup.string().required("Password is required"),
-  // });
-
-  // const formik = useFormik({
-  //   initialValues: {
-  //     username: "",
-  //     email: "",
-  //     password: "",
-  //     passwordConfirmation: "",
-  //   },
-  //   validationSchema: SignupSchema,
-  //   onSubmit: async () => {
-  //     await dispatch(signupAction(formik.values))
-  //       .then(() => navigate("/signin", { replace: true }))
-  //       .catch((err) => console.error(err));
-  //   },
-  // });
-
-  // const { errors, touched, handleSubmit, isSubmitting, getFieldProps } = formik;
 
   return (
     <form autoComplete="off" noValidate onSubmit={handleSignup}>
@@ -98,8 +66,6 @@ const SignupForm = ({ }) => {
             type="string"
             label="Username"
             name="username"
-            // {...getFieldProps("username")}
-            // error={Boolean(touched.username && errors.username)}
             helperText={"Enter your username"}
             onChange={handleInputChange}
           />
@@ -117,8 +83,6 @@ const SignupForm = ({ }) => {
             type="email"
             label="Email address"
             name="email"
-            // {...getFieldProps("email")}
-            // error={Boolean(touched.email && errors.email)}
             helperText={"Enter your email"}
             onChange={handleInputChange}
           />
@@ -129,7 +93,6 @@ const SignupForm = ({ }) => {
             type={showPassword ? "text" : "password"}
             label="Password"
             name="password"
-            // {...getFieldProps("password")}
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
@@ -156,7 +119,6 @@ const SignupForm = ({ }) => {
             type={showPasswordConfirmation ? "text" : "password"}
             label="Password Confirmation"
             name="passwordConfirmation"
-            // {...getFieldProps("passwordConfirmation")}
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">

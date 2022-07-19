@@ -1,19 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
-  TextField,
   Dialog,
   DialogActions,
   DialogContent,
-  DialogContentText,
   DialogTitle,
   Stack,
   Typography,
-  Tabs,
   Tab,
   Box,
   Button,
 } from "@mui/material";
-
 import OutlinedInput from "@mui/material/OutlinedInput";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
@@ -31,13 +27,12 @@ import {
   createQRAction,
   createQRForLinksAction,
 } from "../../redux/actions/qrcodes";
-import { textTransform } from "@mui/system";
 
 const ShareModalDialog = ({ open, handleClose }) => {
   const dispatch = useDispatch();
   const QR = useSelector((state) => state.qrcodes.QR);
   const QRLinks = useSelector((state) => state.qrcodes.QRLinks);
-  let links = useSelector((state) => state?.links?.links);
+  const links = useSelector((state) => state?.links?.links);
 
   const [value, setValue] = useState("1");
   const handleChange = (event, newValue) => {
@@ -77,6 +72,23 @@ const ShareModalDialog = ({ open, handleClose }) => {
       .catch((err) => console.error("ERROR-->", err));
   };
 
+
+  const downloadURI = (uri, name) => {
+    var link = document.createElement("a");
+    link.download = name;
+    link.href = uri;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+
+  const getLinksType = (ids) => {
+    const result = []; 
+    for(var i = 0; i < ids.length; i++)
+      result.push(links?.find(link => link.id === ids[i])?.linktype?.type)
+    return result  
+  }
+
   return (
     <Dialog open={open} onClose={handleClose}>
       <DialogTitle>Share profile</DialogTitle>
@@ -113,6 +125,7 @@ const ShareModalDialog = ({ open, handleClose }) => {
                       margin: " 0 auto",
                     }}
                     src={QR?.QRlink}
+                    alt={"QR code"}
                   />
                   <Typography
                     sx={{
@@ -130,11 +143,11 @@ const ShareModalDialog = ({ open, handleClose }) => {
                     {process.env.REACT_APP_URL + "/" + QR?.uuid}
                     <ContentCopyIcon
                       sx={{
-                        ml: "1em",
+                        ml: "10px",
                         cursor: "pointer",
                       }}
                       onClick={() => {
-                        navigator.clipboard.writeText(QR?.uuid);
+                        navigator.clipboard.writeText(process.env.REACT_APP_URL + "/" + QR?.uuid);
                         dispatch(
                           toggleNotf({
                             success: true,
@@ -189,7 +202,11 @@ const ShareModalDialog = ({ open, handleClose }) => {
                   value={linksId}
                   onChange={handleChangeLinksId}
                   input={<OutlinedInput label="Tag" />}
-                  renderValue={(selected) => selected.join(", ")}
+                  renderValue={(selected) => {
+                    return getLinksType(selected).join(", ")
+                  }
+                }
+                    
                   MenuProps={MenuProps}
                 >
                   {links.map((link) => (
@@ -211,7 +228,7 @@ const ShareModalDialog = ({ open, handleClose }) => {
                     textTransform: "capitalize",
                   }}
                   variant="contained"
-                  disabled={linksId.length == 0}
+                  disabled={linksId.length === 0}
                   onClick={() => {
                     createQRCodeForLinks(linksId);
                   }}
@@ -228,6 +245,7 @@ const ShareModalDialog = ({ open, handleClose }) => {
                       margin: " 0 auto",
                     }}
                     src={QRLinks?.QRlink}
+                    alt={"QR code"}
                   />
                   <Typography
                     sx={{
@@ -245,11 +263,11 @@ const ShareModalDialog = ({ open, handleClose }) => {
                     {process.env.REACT_APP_URL + "/" + QRLinks?.uuid}
                     <ContentCopyIcon
                       sx={{
-                        ml: "1em",
+                        ml: "10px",
                         cursor: "pointer",
                       }}
                       onClick={() => {
-                        navigator.clipboard.writeText(QR?.uuid);
+                        navigator.clipboard.writeText(process.env.REACT_APP_URL + "/" + QRLinks?.uuid);
                         dispatch(
                           toggleNotf({
                             success: true,
@@ -267,13 +285,29 @@ const ShareModalDialog = ({ open, handleClose }) => {
       </DialogContent>
       <DialogActions>
         <Button
+        sx={{
+          ":hover":{
+            color: "red"
+          }
+        }}
           onClick={() => {
             handleClose(false);
           }}
         >
           Cancel
         </Button>
-        <Button>download</Button>
+        <Button
+        disabled={(value === "1" && !QR?.QRlink) || (value === "2" && !QRLinks?.QRlink)}
+        onClick={async ()=> {
+          downloadURI(value === "1" ? QR?.QRlink: QRLinks?.QRlink,
+          value === "1"? QR?.uuid : QRLinks?.uuid)
+        }}
+        sx={{
+          ":hover":{
+            color: "#4993BC"
+          }
+        }}
+        >download</Button>
       </DialogActions>
     </Dialog>
   );

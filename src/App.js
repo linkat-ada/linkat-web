@@ -1,32 +1,33 @@
-import React,{ useEffect, useState } from "react";
+import React from "react";
 import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
 import Notification from "./components/Notifications/Notifications";
 import Home from "./pages/Home/Home";
 import Profile from "./pages/Profile/Profile";
+import UserProfile from "./pages/UserProfile/UserProfile";
 import EditProfile from "./pages/EditProfile/EditProfile";
 import Signin from "./pages/Signin/Signin";
 import Signup from "./pages/Signup/Signup";
 import AboutUs from "./pages/AboutUs/AboutUs";
 import ContactUs from "./pages/ContactUs/ContactUs";
 import People from "./pages/People/People";
+import PageNotFound from "./pages/PageNotFound/PageNotFound"
 import { Route, Routes } from "react-router-dom";
-import { useTheme, ThemeProvider, createTheme } from "@mui/material/styles";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
 import RequireAuth from "./RequiredAuth";
 import SmoothScroll from "smooth-scroll";
 
-import { amber, deepOrange, grey } from "@mui/material/colors";
+import { grey } from "@mui/material/colors";
 export const scroll = new SmoothScroll('a[href*="#"]', {
   speed: 1000,
   speedAsDuration: true,
 });
 
 const App = () => {
-  const navbarItems = ["home", "about-us", "contact-us", "people"];
+  const navbarItems = ["home", "about-us", "contact-us"];
   const ex = ["signin", "signup"];
   const ColorModeContext = React.createContext({ toggleColorMode: () => {} });
   const [mode, setMode] = React.useState("light");
-  const [landingPageData, setLandingPageData] = useState({});
   const colorMode = React.useMemo(
     () => ({
       toggleColorMode: () => {
@@ -83,11 +84,14 @@ const App = () => {
           <Route path={`/signin`} element={<Signin />} />
           <Route path={`/signup`} element={<Signup />} />
           <Route path={`/home`} element={<Home />} />
+          <Route path={`/`} element={<Home />} />
+          <Route path={`/:uuid`} element={<UserProfile />} />
           <Route path={`/about-us`} element={<AboutUs />} />
           <Route path={`/contact-us`} element={<ContactUs />} />
+          <Route path="*" element={<PageNotFound />} />
+          
           <Route element={<RequireAuth />}>
             <Route path={`/profile`} element={<Profile />} />
-            <Route path={`/`} element={<Home />} />
             <Route path={`/people`} element={<People />} />
             <Route path={`/editprofile/`} element={<EditProfile />} />
             <Route path={`/editprofile/:option`} element={<EditProfile />} />

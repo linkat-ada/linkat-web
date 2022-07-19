@@ -36,13 +36,25 @@ const DeleteModalDialog = ({ open, handleClose, linkId, handleCloseMenu }) => {
         </DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button onClick={() => {
+        <Button
+        sx={{
+          ":hover": {
+            color: "#4993BC",
+          },
+        }} 
+        onClick={() => {
           handleCloseMenu()
           handleClose()
         }}>
           Cancel
         </Button>
-        <Button onClick={() => handleOnDeletLink({ id: linkId })}>
+        <Button 
+        sx={{
+        ":hover": {
+          color: "red",
+        },
+        }}
+        onClick={() => handleOnDeletLink({ id: linkId })}>
           Delete
         </Button>
       </DialogActions>

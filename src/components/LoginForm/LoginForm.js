@@ -1,8 +1,6 @@
 import React, { useState } from "react";
-import { Link as RouterLink, useLocation, useNavigate } from "react-router-dom";
-// import { Form, FormikProvider, useFormik } from "formik";
-// import * as Yup from "yup";
-import { useSelector, useDispatch } from "react-redux";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import { signinAction } from "../../redux/actions/users";
 
 import {
@@ -30,22 +28,15 @@ const animate = {
   },
 };
 
-const LoginForm = ({ }) => {
+const LoginForm = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  // const location = useLocation();
-  // const from = location.state?.from?.pathname || "/";
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [userData, setUserData] = useState({
+  const [isSubmitting, ] = useState(false);
+  const [userData, ] = useState({
     usernameOrEmail: "",
     password: "",
   });
   const [showPassword, setShowPassword] = useState(false);
-
-  // const LoginSchema = Yup.object().shape({
-  //   email: Yup.string().required("Email  or Username is required"),
-  //   password: Yup.string().required("Password is required"),
-  // });
 
   const handleInputChange = (e) => {
     userData[e.target.name] = e.target.value;
@@ -58,45 +49,16 @@ const LoginForm = ({ }) => {
       .catch((e) => console.error(e));
   };
 
-  // const handleOnSignin = async (data) => {
-  //   console.log(data);
-  //   await dispatch(
-  //     signinAction({ usernameOrEmail: data.email, password: data.password })
-  //   )
-  //     .then((res) => {
-  //       console.log("signin action------------- ", res);
-  //     })
-  //     .catch((e) => console.error("-----------", e));
-  // };
-
-  // const formik = useFormik({
-  //   initialValues: {
-  //     email: "",
-  //     password: "",
-  //     remember: true,
-  //   },
-  //   validationSchema: LoginSchema,
-  //   onSubmit: async () => {
-  //     await dispatch(
-  //       signinAction({ usernameOrEmail: formik?.values?.email, password: formik?.values?.password })
-  //     )
-  //       .then((res) => {
-  //         console.log("signin action------------- ", res);
-  //       })
-  //       .catch((e) => console.error("-----------", e));
-  //   },
-  // });
-  // const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } =
-  //   formik;
-
   return (
-    // <FormikProvider value={formik}>
       <form
         autoComplete="off"
         noValidate
         onSubmit={handleLogin}
+        style={{}}
       >
         <Box
+        sx={{
+        }}
           component={motion.div}
           animate={{
             transition: {
@@ -148,7 +110,6 @@ const LoginForm = ({ }) => {
               }}
             />
           </Box>
-
           <Box
             component={motion.div}
             initial={{ opacity: 0, y: 20 }}
@@ -166,7 +127,6 @@ const LoginForm = ({ }) => {
                 }
                 label="Remember me"
               />
-
               <Link
                 component={RouterLink}
                 variant="subtitle2"
@@ -176,7 +136,6 @@ const LoginForm = ({ }) => {
                 Forgot password?
               </Link>
             </Stack>
-
             <LoadingButton
               fullWidth
               size="large"
@@ -189,7 +148,6 @@ const LoginForm = ({ }) => {
           </Box>
         </Box>
       </form>
-    // </FormikProvider>
   );
 };
 

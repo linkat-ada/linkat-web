@@ -10,7 +10,7 @@ const allReducers = combineReducers({
     links: linksReducer,
     qrcodes: qrcodesReducer,
     subscribers: subscribersReducer,
-    notifications: notificationsReducer
+    notifications: notificationsReducer,
 })
 
 export default allReducers

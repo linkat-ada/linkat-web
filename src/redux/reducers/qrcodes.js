@@ -1,8 +1,9 @@
-import { CREATE_QR_CODE, CREATE_QR_FOR_LINKS } from "../constants";
+import { CREATE_QR_CODE, CREATE_QR_FOR_LINKS, SCAN_QR, NOT_FOUND } from "../constants";
 
 const initialState = {
     QR: {},
-    QRLinks: {}
+    QRLinks: {},
+    Data:{}
 }
 
 const qrcodesReducer = (state = initialState, action) => {
@@ -16,7 +17,17 @@ const qrcodesReducer = (state = initialState, action) => {
             return {
                 ...state,
                 QRLinks: action?.payload?.data?.QR
-            }     
+            }
+      case SCAN_QR:
+        return {
+          ...state,
+          Data : action?.payload?.data, 
+        }
+    case NOT_FOUND: 
+        return{
+            ...state,
+            Data : {}
+        }                 
         default:
             return state;
     }

@@ -6,41 +6,18 @@ import { Typography, Box, Stack, Button } from "@mui/material";
 import { getUserLinksAction } from "../../redux/actions/links";
 import { Avatar } from "@mui/material";
 import Link from "../../components/Link/Link";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import { reoderLinksAction } from "../../redux/actions/links";
+import { reoderLinksAction, getLinkTypesAction } from "../../redux/actions/links";
 import AddLink from "../../components/AddLink/AddLink";
 import ShareIcon from '@mui/icons-material/Share';
-import { margin } from "@mui/system";
 import ShareModalDialog from "../../components/ModalDialog/ShareModalDialog"
 
 const Profile = () => {
-  const [linksArr, setLinksArr] = useState([]);
   const dispatch = useDispatch();
   let links = useSelector((state) => state?.links?.links);
   const [openShareDialog, setOpenShareDialog] = useState(false);
 
 
-  const swap = (i, j, arr) => {
-    const temp = arr[i];
-    arr[i] = arr[j];
-    arr[j] = temp;
-  };
-
-  const handleOnDragEnd = (result) => {
-    if (!result.destination) return;
-    if (!Array.isArray(links) && links?.length == 0) return;
-    const order = links.map((link) => link?.order);
-    console.log(order);
-    swap(result.source.index - 1, result.destination.index - 1, order);
-    console.log(order);
-    reoderLinks(order);
-    console.log(result.source.index, result.destination.index);
-  };
   const user = useSelector((state) => state?.auth?.data?.user);
-  const sortLinks = (links) => {
-    if (Array.isArray(links) && links?.length > 0)
-      return links.sort((a, b) => a.order - b.order);
-  };
 
   const getUserInfo = async () => {
     await dispatch(getUserInfoAction())
@@ -52,22 +29,31 @@ const Profile = () => {
       .then(() => console.log("getUserLinksAction", "sucess"))
       .catch((err) => console.error(err));
   };
-  const reoderLinks = async (order) => {
+  /*const reoderLinks = async (order) => {
     await dispatch(reoderLinksAction({ newOrder: order }))
       .then(() => console.log("reoder links action", "sucess"))
       .catch((err) => console.error(err));
-  };
+  };*/
+
+  const getLinkTypes = async () => {
+    await dispatch(getLinkTypesAction()).then(()=>{
+      console.log("getLinkType", "success")
+    }).catch((err)=> {
+      console.error("getLinkType", err)
+    })
+  }
 
   useEffect(() => {
     getUserInfo();
     getUserLinks();
+    getLinkTypes()
   }, []);
 
 
   return (
     <div className="profile">
       <div className="container">
-        <img className="bgpic" src={user?.usersprofile?.bgPic} />
+        <img className="bgpic" src={user?.usersprofile?.bgPic} alt={user?.username}/>
         <Avatar
           sx={{
             m: "0 auto",
@@ -84,7 +70,7 @@ const Profile = () => {
           </Typography>
           {user?.usersprofile.nickname && (
             <Typography variant="h6" component="h2" color="dark">
-              {user?.usersprofile.nickname}
+              {user?.usersprofile?.nickname}
             </Typography>
           )}
           {user?.usersprofile.bio && (
@@ -113,13 +99,14 @@ const Profile = () => {
           <ShareModalDialog open={openShareDialog} handleClose={setOpenShareDialog}/>
         <Box>
           <Stack sx={{ m: "0 4em" }} spacing={2} elevation={3}>
-            {links?.map((links, i) => (
+            {links?.map((link, i) => (
               <Link
-                key={links?.id}
-                icon={links?.linktype?.icon}
-                type={links?.linktype?.type}
-                url={links?.url}
-                id={links?.id}
+                key={link?.id}
+                icon={link?.linktype?.icon}
+                type={link?.linktype?.type}
+                url={link?.url}
+                link={link}
+                id={link?.id}
               />
             ))}
             <AddLink />

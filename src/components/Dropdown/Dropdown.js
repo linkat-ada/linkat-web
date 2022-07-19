@@ -121,20 +121,6 @@ const Dropdown = ({ eventButton }) => {
           </Link>
         )}
         <Divider />
-        <Link
-          to={`/settings`}
-          style={{
-            textDecoration: "none",
-            color: "inherit",
-          }}
-        >
-          <MenuItem>
-            <ListItemIcon>
-              <Settings fontSize="small" />
-            </ListItemIcon>
-            Settings
-          </MenuItem>
-        </Link>
         <MenuItem
           onClick={() => {
             if (!isAuthenticated) navigate("/signin");

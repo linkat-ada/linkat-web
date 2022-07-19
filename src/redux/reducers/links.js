@@ -4,12 +4,12 @@ import {
   EDIT_LINK,
   DELETE_LINK,
   GET_LINK_TYPES,
-  ADD_NEW_LINK
+  ADD_NEW_LINK,
 } from "../constants";
 
 let initialState = {
   links: [],
-  linkTypes:[]
+  linkTypes:[],
 };
 
 const linksReducer = (state = initialState, action) => {
@@ -42,10 +42,10 @@ const linksReducer = (state = initialState, action) => {
         linkTypes: action?.payload?.data,
       }
       case ADD_NEW_LINK:
-        return{
+        return {
           ...state, 
           links: action?.payload?.data,
-        }  
+        }
     default:
       return state;
   }

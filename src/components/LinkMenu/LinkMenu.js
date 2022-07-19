@@ -7,7 +7,7 @@ import EditModalDialog from "../ModalDialog/EditModalDialog";
 import DeleteModalDialog from "../ModalDialog/DeleteModalDialog";
 import ShowLinkModalDialog from "../ModalDialog/ShowLinkModalDialog"
 
-const LinkMenu = ({ anchorEl, open, handleClose, linkId }) => {
+const LinkMenu = ({ anchorEl, open, handleClose, link, linkId }) => {
   const [editDialog, setEditDialog] = useState(false);
   const [deleteDialog, setDeleteDialog] = useState(false);
   const [showLinkDialog, setShowLinkDialog] = useState(false);
@@ -87,7 +87,7 @@ const LinkMenu = ({ anchorEl, open, handleClose, linkId }) => {
       <ShowLinkModalDialog
         open={showLinkDialog}
         handleClose={handleOnCloseShowLink}
-        linkId={linkId}
+        link={link}
         handleCloseMenu={handleClose}
       />
     </Menu>

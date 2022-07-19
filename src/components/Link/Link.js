@@ -3,7 +3,7 @@ import { Avatar, Box, Switch, Typography, IconButton } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import LinkMenu from "../../components/LinkMenu/LinkMenu";
 
-const Link = ({ icon, type, url, id }) => {
+const Link = ({ icon, type, url, link, id }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
 
@@ -35,6 +35,7 @@ const Link = ({ icon, type, url, id }) => {
         sx={{
           textAlignLast: "center",
           textTransform: "capitalize",
+          m:"auto"
         }}
         color="text.primary"
       >
@@ -47,6 +48,7 @@ const Link = ({ icon, type, url, id }) => {
         anchorEl={anchorEl} 
         open={open} 
         handleClose={handleClose}
+        link={link}
         linkId={id} />
     </Box>
   );
