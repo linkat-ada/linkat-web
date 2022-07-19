@@ -68,5 +68,8 @@
   },
   "devDependencies": {
     "@iconify/react": "^3.2.2"
+  },
+  "browser": {
+    "[module-name]": false   
   }
 }
